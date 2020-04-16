@@ -18,7 +18,8 @@ We consider the dataset with instances from multiple environment -- $D_{e}:=\{(x
 
 ##IRM as a hard constraint
 First, we consider IRM as a hard constraint in the optimization problem as
-\[\underset{\Phi,w}{\arg\min}R^e(w\odot\Phi)\]
+\[\underset{\Phi,w}{\arg\min}R^e(w\odot\Phi) \\ 
+s.t. w\in\underset{\bar{w}}{\arg\min}R^e(w\odot\Phi),\forall e\in\mathcal{E}\]
 
 
 
