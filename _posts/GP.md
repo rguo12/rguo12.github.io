@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Invariant Risk Minimization
+title: Gaussian Process
 ---
 
 A GP models functions as samples from an infinite dimensional multivariate normal distribution.
