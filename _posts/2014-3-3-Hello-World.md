@@ -14,7 +14,7 @@ Therefore, in contrast, we aim to consider the causal relationships between the 
 
 ####Invariant Risk Minimization
 
-We consider the dataset with instances from multiple environment -- \\(D_{e}:=\{(x_{i}^{e}, y_{i}^{e})\}_{i=1}^{n_{e}}\\). We want to learn a function \\(f(X)\approx Y\\).
+We consider the dataset with instances from multiple environment -- $D_{e}:=\{(x_{i}^{e}, y_{i}^{e})\}_{i=1}^{n_{e}}$. We want to learn a function $f(X)\approx Y$.
 
 
 
