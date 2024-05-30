@@ -62,7 +62,15 @@ Experience:
 Students and Interns
 - Maolin Wang (PhD Student@City University of Hong Kong, Co-supervised w. Xiangyu Zhao and Junhui Wang)
   - WWW'24, SDM'24, ICDM'23
-- Zonghao Chen (PhD Student@UCL, Intern@Tiktok UK)
+- Zonghao Chen (PhD Student@UCL, Intern@ByteDance Research)
   - KDD'24
-- Qing Zhang (PhD Student@HKUST, Intern@ByteDance Beijing)
+- Tongxin Yin (PhD Student@UMich, Intern@ByteDance Research)
+  - ICLR'24
+- Qing Zhang (PhD Student@HKUST, Intern@ByteDance Research)
   - KDD'23
+- Xiaohui Chen (PhD Student@Tufts, Intern@ByteDance)
+  - KDD'23
+- Sichun Luo (PhD Student@CityU, Intern@ByteDance)
+- Xinjian Zhao (Master Student@CityU -> PhD Student@CUHK SZ)
+- Jiansheng Li (Master Student@CityU -> PhD Student@CUHK SZ)
+
