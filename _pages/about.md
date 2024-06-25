@@ -7,13 +7,13 @@ redirect_from:
   - /about.html
 ---
 
-I am Ruocheng Guo, a Machine Learning Researcher at ByteDance Research in London, UK. I obtained Ph.D. degree with outstanding Ph.D. student award from Arizona State University advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
+I am Ruocheng Guo, a Senior Machine Learning Researcher at ByteDance Research in London, UK. I am actively working on RL for LLMs. I obtained Ph.D. degree with outstanding Ph.D. student award from Arizona State University advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
 
 Research Interests:
+- LLMs
 - Causal Inference
 - Conformal Prediction
 - Responsible AI
-- LLMs
 - Recommendation Systems
 - Graph Learning
 
@@ -33,7 +33,8 @@ Interested in Causality? Please find our papers and algorithm/data repositories.
 
 Recent Accepted Papers
 - Causal Inference
-  - [Conformal Counterfactual Inference under Hidden Confounding (KDD'24)]()
+  - [Conformal Counterfactual Inference under Hidden Confounding (KDD'24)](https://arxiv.org/abs/2405.12387)
+    - [code](https://github.com/rguo12/KDD24-Conformal)
   - [Debiasing Recommendation by Learning Identifiable Latent Confounders (KDD'23)](https://arxiv.org/pdf/2302.05052.pdf)
     - [code](https://github.com/BgmLover/iDCF)
   - [Learning for Counterfactual Fairness from Observational Data (KDD'23)](https://arxiv.org/pdf/2307.08232.pdf)
@@ -53,7 +54,7 @@ Recent Accepted Papers
 
 
 Experience:
-- Machine Learning Researcher, ByteDance Research, June 2022 - 
+- Senior Machine Learning Researcher, ByteDance Research, June 2022 - 
 - Assistant Professor, City University of Hong Kong, Aug 2021 - June 2022
 - AI Resident, Google [X], Aug 2020 - Dec 2020
 - Research Intern, Microsoft Research, May 2020 - Aug 2020
