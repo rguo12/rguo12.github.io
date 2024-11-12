@@ -7,10 +7,10 @@ redirect_from:
   - /about.html
 ---
 
-I am Ruocheng Guo, a Senior Machine Learning Researcher at ByteDance Research in London, UK. I am actively working on RL for LLMs. I obtained Ph.D. degree with outstanding Ph.D. student award from Arizona State University advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
+I am Ruocheng Guo, a Senior Machine Learning Researcher at ByteDance Research in London, UK. I am actively working on LLM Reasoning. I obtained Ph.D. degree with outstanding Ph.D. student award from Arizona State University advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
 
 Research Interests:
-- LLMs
+- LLMs (Reasoning, Alignment)
 - Causal Inference
 - Conformal Prediction
 - Responsible AI
@@ -50,6 +50,7 @@ Recent Accepted Papers
   - [Virtual Node Tuning for Few-shot Node Classification (KDD'23)](https://arxiv.org/pdf/2306.06063.pdf)  
 
 - Recommendation Systems
+  - [EASRec: Elastic Architecture Search for Efficient Long-term Sequential Recommender Systems (Recsys'24)](https://arxiv.org/abs/2402.00390)
   - [Graph-Based Model-Agnostic Data Subsampling for Recommendation Systems (KDD'23 ADS Track)](https://arxiv.org/pdf/2305.16391)
 
 
