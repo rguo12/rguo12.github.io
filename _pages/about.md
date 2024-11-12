@@ -33,6 +33,7 @@ Interested in Causality? Please find our papers and algorithm/data repositories.
 
 Recent Accepted Papers
 - Causal Inference
+  - [Learning the Optimal Policy for Balancing Multiple Short-Term and Long-Term Rewards (NeurIPS'24)]()
   - [Conformal Counterfactual Inference under Hidden Confounding (KDD'24)](https://arxiv.org/abs/2405.12387)
     - [code](https://github.com/rguo12/KDD24-Conformal)
   - [Debiasing Recommendation by Learning Identifiable Latent Confounders (KDD'23)](https://arxiv.org/pdf/2302.05052.pdf)
@@ -50,7 +51,7 @@ Recent Accepted Papers
   - [Virtual Node Tuning for Few-shot Node Classification (KDD'23)](https://arxiv.org/pdf/2306.06063.pdf)  
 
 - Recommendation Systems
-  - [EASRec: Elastic Architecture Search for Efficient Long-term Sequential Recommender Systems (Recsys'24)](https://arxiv.org/abs/2402.00390)
+  <!-- - [EASRec: Elastic Architecture Search for Efficient Long-term Sequential Recommender Systems (Recsys'24)](https://arxiv.org/abs/2402.00390) -->
   - [Graph-Based Model-Agnostic Data Subsampling for Recommendation Systems (KDD'23 ADS Track)](https://arxiv.org/pdf/2305.16391)
 
 
