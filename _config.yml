@@ -24,7 +24,7 @@ author:
   avatar           : "profile.jpg"
   name             : # ""
   pronouns         : # example: "she/her"  
-  bio              : "Researching Causal Inference, Conformal Prediction, LLMs, and Recommendation Systems"
+  bio              : "ML Researcher working on Causal Inference, Conformal Prediction, LLMs, and Recommendation Systems"
   location         : "London"
   employer         : "ByteDance Research (UK)"
   uri              : # URL
