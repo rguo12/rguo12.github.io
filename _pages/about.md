@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His research focuses on Trustworthy AI for LLMs, Recommendation Systems, and Graph Learning, leveraging Causal ML and Uncertainty Quantification methodologies. Prior to joining Intuit, he was a Senior Machine Learning Researcher at ByteDance Research and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
+Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research focus is LLM Agents, he worked on LLM reasoning, causal machine learning, and conformal prediction. Prior to joining Intuit, he was a Researcher at TikTok/ByteDance Research and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](http://www.public.asu.edu/~huanliu/).
 
 Research Interests:
 - LLMs
