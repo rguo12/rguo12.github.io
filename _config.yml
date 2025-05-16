@@ -146,6 +146,7 @@ analytics:
 include:
   - .htaccess
   - _pages
+  - _publications
   - files
 exclude:
   - "*.sublime-project"
@@ -205,13 +206,13 @@ collections:
     permalink: /:collection/:path/
   publications:
     output: true
-    permalink: /:collection/:path/
+    permalink: /publication/:path/
   portfolio:
     output: true
     permalink: /:collection/:path/
   talks:
     output: true
-    permalink: /:collection/:path/
+    permalink: /talk/:path/
 
 
 # Defaults
