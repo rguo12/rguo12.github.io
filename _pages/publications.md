@@ -1,16 +1,11 @@
 ---
-layout: archive
-title: "Publications"
+layout: page
+title: Publications
 permalink: /publications/
-author_profile: true
 ---
 
 {% if site.author.googlescholar %}
   <div class="wordwrap">You can find the full list of my papers on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
-{% include base_path %}
-
-{% for post in site.publications reversed %}
-  {% include archive-single.html %}
-{% endfor %}
+{% include_relative _publications/publications.md %}
