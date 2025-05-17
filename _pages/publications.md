@@ -9,4 +9,4 @@ author_profile: true
   <div class="wordwrap">You can find the full list of my papers on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
 {% endif %}
 
-{% include publications.md %}
+{% include all_publications.md %}
