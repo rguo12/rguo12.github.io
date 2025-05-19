@@ -17,8 +17,8 @@ Research Interests:
 
 News
 - 05/25 Got 2 papers in IJCAI'25, 1 paper in ACL'25, and 1 paper in KDD'25
-- 04/25 Gave a talk at LinkedIn Market AI on LLM Agents [slides](), thank Dr. Liangjie Hong for the invitation
 - 03/25 Joined Intuit AI Research as a Staff RS
+- Gave a talk at LinkedIn Market AI on LLM Agents [slides](), thank Dr. Liangjie Hong for the invitation
 - 11/24 Invited to serve as PC co-chair of the industry track of IEEE DSAA'25
 - 11/24 Invited by Dr. Jing Ma to give a guest lecture on conformal causal inference at Case Western Reserve University [slides]() 
 - 10/24 A paper accepted to NeurIPS'24
