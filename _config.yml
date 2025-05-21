@@ -24,9 +24,9 @@ author:
   avatar           : "profile.jpg"
   name             : # ""
   pronouns         : # example: "she/her"  
-  bio              : "ML Researcher working on Causal Inference, Conformal Prediction, LLMs, and Recommendation Systems"
-  location         : "London"
-  employer         : "ByteDance Research (UK)"
+  bio              : "ML Researcher working on LLM Agents"
+  location         : "Mountain View"
+  employer         : "Intuit AI"
   uri              : # URL
   email            : "rguo.asu at gmail dot com" 
 
