@@ -157,10 +157,10 @@ def generate_publication_item(entry):
     venue = format_venue(entry)
     links = format_links(entry)
     
-    # Create lines
+    # Create lines with bullets for venue and authors
     title_line = f"- {title} {links}"
-    venue_line = f"  {venue}" if venue else ""
-    author_line = f"  *{authors}*" if authors else ""
+    venue_line = f"  - {venue}" if venue else ""
+    author_line = f"  - *{authors}*" if authors else ""
     
     # Combine lines
     result_lines = [title_line]
