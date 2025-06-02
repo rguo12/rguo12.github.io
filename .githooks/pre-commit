@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Check if publications.bib has been modified
+if git diff --cached --name-only | grep -q "_data/publications.bib"; then
+    echo "publications.bib modified, regenerating publication list..."
+    
+    # Generate publications
+    python scripts/generate_publications.py
+    
+    # Add the updated file to the commit
+    git add _includes/all_publications.md
+    
+    echo "Publication list updated and added to commit."
+fi 
