@@ -13,6 +13,9 @@
 - Trustworthy llms: a survey and guideline for evaluating large language models' alignment [[arxiv]()]
   - arXiv preprint arXiv:2308.05374
   - *Yang Liu, Yuanshun Yao, Jean-Francois Ton, Xiaoying Zhang, **Ruocheng Guo**, Hao Cheng, Yegor Klochkov, Muhammad Faaiz Taufiq, and Hang Li*
+- Inference-time Stochastic Ranking with Risk Control [[arxiv]()]
+  - arXiv preprint arXiv:2306.07188
+  - ***Ruocheng Guo**, Jean-François Ton, and Yang Liu*
 
 ## Accepted Papers
 ### 2025
@@ -35,7 +38,7 @@
 ### 2024
 - Conformal counterfactual inference under hidden confounding [[arxiv]()]
   - KDD 2024
-  - *Zonghao Chen, **Ruocheng Guo**, Jean-François Ton, and Yang Liu*
+  - *Zonghao† Chen, Ruocheng† Guo, Jean-François Ton, and Yang Liu*
 - Learning the Optimal Policy for Balancing Short-Term and Long-Term Rewards [[arxiv]()]
   - NeurIPS 2024
   - *Qinwei Yang, Xueqing Liu, Yan Zeng, **Ruocheng Guo**, Yang Liu, and Peng Wu*
