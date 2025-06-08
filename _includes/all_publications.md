@@ -38,7 +38,7 @@
 ### 2024
 - Conformal counterfactual inference under hidden confounding [[arxiv]()]
   - KDD 2024
-  - *Zonghao† Chen, Ruocheng† Guo, Jean-François Ton, and Yang Liu*
+  - *Zonghao Chen†, **Ruocheng Guo†**, Jean-François Ton, and Yang Liu*
 - Learning the Optimal Policy for Balancing Short-Term and Long-Term Rewards [[arxiv]()]
   - NeurIPS 2024
   - *Qinwei Yang, Xueqing Liu, Yan Zeng, **Ruocheng Guo**, Yang Liu, and Peng Wu*
