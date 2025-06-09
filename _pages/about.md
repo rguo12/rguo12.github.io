@@ -60,3 +60,203 @@ Students and Interns (and papers co-authored with me)
 - Xinjian Zhao (Master Student@CityU -> PhD Student@CUHK SZ)
 - Jiansheng Li (Master Student@CityU -> PhD Student@CUHK SZ)
 
+## Visitor Map
+
+<div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+  <h3 style="margin-top: 0; color: #495057; text-align: center;">🌍 Website Visitors</h3>
+  <div id="about-visitor-map" style="height: 300px; width: 100%; border-radius: 6px; margin: 15px 0;"></div>
+  <div style="text-align: center; font-size: 14px; color: #666;">
+    <span id="about-total-visitors">0</span> visitors from <span id="about-unique-countries">0</span> countries
+  </div>
+</div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+(function() {
+  'use strict';
+  
+  const STORAGE_KEY = 'geolocation_stats';
+  const VISITOR_KEY = 'visitor_tracked';
+  
+  let aboutMap = null;
+  let geolocationData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    totalVisitors: 0,
+    countries: {},
+    visitors: [],
+    lastUpdated: Date.now()
+  };
+  
+  // Initialize the about page map
+  function initializeAboutMap() {
+    if (aboutMap) {
+      aboutMap.remove();
+    }
+    
+    aboutMap = L.map('about-visitor-map', {
+      zoomControl: true,
+      attributionControl: false
+    }).setView([20, 0], 2);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 10,
+      minZoom: 1
+    }).addTo(aboutMap);
+    
+    // Add existing visitor markers
+    geolocationData.visitors.forEach((visitor, index) => {
+      addMarkerToAboutMap(visitor.lat, visitor.lng, visitor.city, visitor.country, visitor.timestamp);
+    });
+    
+    // Fit map to show all markers if there are any
+    if (geolocationData.visitors.length > 0) {
+      const group = new L.featureGroup(geolocationData.visitors.map(v => L.marker([v.lat, v.lng])));
+      aboutMap.fitBounds(group.getBounds().pad(0.1));
+    }
+  }
+  
+  // Add marker to about page map
+  function addMarkerToAboutMap(lat, lng, city, country, timestamp) {
+    if (!aboutMap) return;
+    
+    const marker = L.circleMarker([lat, lng], {
+      radius: 8,
+      fillColor: '#ff7800',
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.8
+    }).addTo(aboutMap);
+    
+    const date = new Date(timestamp).toLocaleDateString();
+    marker.bindPopup(`<b>${city}, ${country}</b><br/>Visited: ${date}`);
+  }
+  
+  // Update display
+  function updateAboutDisplay() {
+    document.getElementById('about-total-visitors').textContent = geolocationData.totalVisitors;
+    document.getElementById('about-unique-countries').textContent = Object.keys(geolocationData.countries).length;
+  }
+  
+  // Track visitor (same as before)
+  function trackVisitor() {
+    if (sessionStorage.getItem(VISITOR_KEY)) {
+      updateAboutDisplay();
+      return;
+    }
+    
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(data => {
+        const country = data.country_name || 'Unknown';
+        const city = data.city || 'Unknown';
+        const lat = data.latitude || 0;
+        const lng = data.longitude || 0;
+        
+        geolocationData.totalVisitors++;
+        geolocationData.countries[country] = (geolocationData.countries[country] || 0) + 1;
+        
+        if (lat && lng) {
+          const newVisitor = {
+            lat: lat,
+            lng: lng,
+            city: city,
+            country: country,
+            timestamp: Date.now()
+          };
+          
+          geolocationData.visitors.push(newVisitor);
+          
+          if (geolocationData.visitors.length > 50) {
+            geolocationData.visitors = geolocationData.visitors.slice(-50);
+          }
+          
+          addMarkerToAboutMap(lat, lng, city, country, newVisitor.timestamp);
+        }
+        
+        geolocationData.lastUpdated = Date.now();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+        sessionStorage.setItem(VISITOR_KEY, 'true');
+        
+        updateAboutDisplay();
+      })
+      .catch(err => {
+        console.log('Primary IP geolocation failed, trying backup:', err);
+        fetch('https://api.bigdatacloud.net/data/ip-geolocation?key=&ip=')
+          .then(response => response.json())
+          .then(data => {
+            const country = data.country?.name || 'Unknown';
+            const city = data.location?.city || 'Unknown';
+            const lat = data.location?.latitude || 0;
+            const lng = data.location?.longitude || 0;
+            
+            geolocationData.totalVisitors++;
+            geolocationData.countries[country] = (geolocationData.countries[country] || 0) + 1;
+            
+            if (lat && lng) {
+              const newVisitor = {
+                lat: lat,
+                lng: lng,
+                city: city,
+                country: country,
+                timestamp: Date.now()
+              };
+              
+              geolocationData.visitors.push(newVisitor);
+              
+              if (geolocationData.visitors.length > 50) {
+                geolocationData.visitors = geolocationData.visitors.slice(-50);
+              }
+              
+              addMarkerToAboutMap(lat, lng, city, country, newVisitor.timestamp);
+            }
+            
+            geolocationData.lastUpdated = Date.now();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+            sessionStorage.setItem(VISITOR_KEY, 'true');
+            
+            updateAboutDisplay();
+          })
+          .catch(backupErr => {
+            console.log('Backup geolocation also failed:', backupErr);
+            geolocationData.totalVisitors++;
+            geolocationData.countries['Unknown'] = (geolocationData.countries['Unknown'] || 0) + 1;
+            geolocationData.lastUpdated = Date.now();
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+            sessionStorage.setItem(VISITOR_KEY, 'true');
+            
+            updateAboutDisplay();
+          });
+      });
+  }
+  
+  // Initialize everything
+  updateAboutDisplay();
+  
+  // Initialize map when page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initializeAboutMap, 500);
+      setTimeout(trackVisitor, 1000);
+    });
+  } else {
+    setTimeout(initializeAboutMap, 500);
+    setTimeout(trackVisitor, 1000);
+  }
+  
+  // Clean up old data
+  if (Date.now() - geolocationData.lastUpdated > 30 * 24 * 60 * 60 * 1000) {
+    geolocationData = {
+      totalVisitors: 0,
+      countries: {},
+      visitors: [],
+      lastUpdated: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+  }
+})();
+</script>
+

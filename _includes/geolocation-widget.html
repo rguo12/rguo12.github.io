@@ -1,0 +1,253 @@
+<!-- Visitor Map Widget -->
+<div id="visitor-map-widget" style="position: fixed; bottom: 20px; right: 20px; background: rgba(255,255,255,0.95); border: 1px solid #ddd; border-radius: 8px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 350px; height: 280px; z-index: 1000; font-family: Arial, sans-serif;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h4 style="margin: 0; font-size: 14px; color: #333;">🌍 Visitor Map</h4>
+    <button id="toggle-map-widget" style="background: none; border: none; cursor: pointer; font-size: 12px;">−</button>
+  </div>
+  <div id="map-content">
+    <div id="visitor-map" style="height: 200px; width: 100%; border-radius: 6px; margin-bottom: 10px;"></div>
+    <div style="font-size: 11px; color: #666; text-align: center;">
+      <span id="total-visitors">0</span> visitors from <span id="unique-countries">0</span> countries
+    </div>
+  </div>
+</div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  const STORAGE_KEY = 'geolocation_stats';
+  const VISITOR_KEY = 'visitor_tracked';
+  
+  // Initialize widget
+  let isCollapsed = false;
+  let map = null;
+  let geolocationData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+    totalVisitors: 0,
+    countries: {},
+    visitors: [], // Store individual visitor locations
+    lastUpdated: Date.now()
+  };
+  
+  // Toggle widget functionality
+  document.getElementById('toggle-map-widget').addEventListener('click', function() {
+    const content = document.getElementById('map-content');
+    const button = document.getElementById('toggle-map-widget');
+    
+    if (isCollapsed) {
+      content.style.display = 'block';
+      button.textContent = '−';
+      isCollapsed = false;
+      // Reinitialize map when expanded
+      setTimeout(initializeMap, 100);
+    } else {
+      content.style.display = 'none';
+      button.textContent = '+';
+      isCollapsed = true;
+    }
+  });
+  
+  // Initialize the map
+  function initializeMap() {
+    if (map) {
+      map.remove();
+    }
+    
+    map = L.map('visitor-map', {
+      zoomControl: false,
+      attributionControl: false
+    }).setView([20, 0], 2);
+    
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 10,
+      minZoom: 1
+    }).addTo(map);
+    
+    // Add existing visitor markers
+    geolocationData.visitors.forEach(visitor => {
+      addMarkerToMap(visitor.lat, visitor.lng, visitor.city, visitor.country);
+    });
+  }
+  
+  // Add marker to map
+  function addMarkerToMap(lat, lng, city, country) {
+    if (!map) return;
+    
+    const marker = L.circleMarker([lat, lng], {
+      radius: 6,
+      fillColor: '#ff7800',
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.8
+    }).addTo(map);
+    
+    marker.bindPopup(`<b>${city}, ${country}</b><br/>Recent visitor`);
+  }
+  
+  // Update display
+  function updateDisplay() {
+    document.getElementById('total-visitors').textContent = geolocationData.totalVisitors;
+    document.getElementById('unique-countries').textContent = Object.keys(geolocationData.countries).length;
+  }
+  
+  // Get user's location and track visit (no permission required)
+  function trackVisitor() {
+    // Check if already tracked this session
+    if (sessionStorage.getItem(VISITOR_KEY)) {
+      updateDisplay();
+      return;
+    }
+    
+    // Use IP-based geolocation as primary method (no permission required)
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(data => {
+        const country = data.country_name || 'Unknown';
+        const city = data.city || 'Unknown';
+        const lat = data.latitude || 0;
+        const lng = data.longitude || 0;
+        
+        // Update statistics
+        geolocationData.totalVisitors++;
+        geolocationData.countries[country] = (geolocationData.countries[country] || 0) + 1;
+        
+        // Store visitor location for map
+        if (lat && lng) {
+          geolocationData.visitors.push({
+            lat: lat,
+            lng: lng,
+            city: city,
+            country: country,
+            timestamp: Date.now()
+          });
+          
+          // Keep only last 50 visitors to prevent storage overflow
+          if (geolocationData.visitors.length > 50) {
+            geolocationData.visitors = geolocationData.visitors.slice(-50);
+          }
+          
+          // Add marker to map
+          addMarkerToMap(lat, lng, city, country);
+        }
+        
+        geolocationData.lastUpdated = Date.now();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+        sessionStorage.setItem(VISITOR_KEY, 'true');
+        
+        updateDisplay();
+      })
+      .catch(err => {
+        console.log('Primary IP geolocation failed, trying backup:', err);
+        // Backup IP geolocation service
+        fetch('https://api.bigdatacloud.net/data/ip-geolocation?key=&ip=')
+          .then(response => response.json())
+          .then(data => {
+            const country = data.country?.name || 'Unknown';
+            const city = data.location?.city || 'Unknown';
+            const lat = data.location?.latitude || 0;
+            const lng = data.location?.longitude || 0;
+            
+            geolocationData.totalVisitors++;
+            geolocationData.countries[country] = (geolocationData.countries[country] || 0) + 1;
+            
+            // Store visitor location for map
+            if (lat && lng) {
+              geolocationData.visitors.push({
+                lat: lat,
+                lng: lng,
+                city: city,
+                country: country,
+                timestamp: Date.now()
+              });
+              
+              // Keep only last 50 visitors
+              if (geolocationData.visitors.length > 50) {
+                geolocationData.visitors = geolocationData.visitors.slice(-50);
+              }
+              
+              // Add marker to map
+              addMarkerToMap(lat, lng, city, country);
+            }
+            
+            geolocationData.lastUpdated = Date.now();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+            sessionStorage.setItem(VISITOR_KEY, 'true');
+            
+            updateDisplay();
+          })
+          .catch(backupErr => {
+            console.log('Backup geolocation also failed:', backupErr);
+            // Still track the visitor even if location detection fails
+            geolocationData.totalVisitors++;
+            geolocationData.countries['Unknown'] = (geolocationData.countries['Unknown'] || 0) + 1;
+            geolocationData.lastUpdated = Date.now();
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+            sessionStorage.setItem(VISITOR_KEY, 'true');
+            
+            updateDisplay();
+          });
+      });
+  }
+  
+  // Initialize
+  updateDisplay();
+  setTimeout(initializeMap, 1000);
+  
+  // Track visitor after a short delay to ensure page has loaded
+  setTimeout(() => {
+    trackVisitor();
+  }, 1500);
+  
+  // Clean up old data (older than 30 days)
+  if (Date.now() - geolocationData.lastUpdated > 30 * 24 * 60 * 60 * 1000) {
+    geolocationData = {
+      totalVisitors: 0,
+      countries: {},
+      visitors: [],
+      lastUpdated: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(geolocationData));
+  }
+})();
+</script>
+
+<style>
+#visitor-map-widget {
+  transition: all 0.3s ease;
+}
+
+#visitor-map-widget:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.leaflet-container {
+  background: #a0d2eb !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  #visitor-map-widget {
+    position: fixed !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    left: 10px !important;
+    width: auto !important;
+    height: 250px !important;
+  }
+  
+  #visitor-map {
+    height: 170px !important;
+  }
+}
+</style> 
