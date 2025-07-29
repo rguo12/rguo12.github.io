@@ -16,11 +16,12 @@ Research Interests:
 - Data Mining
 
 News
+- 05/25 Invited to serve as Senior PC for CIKM'25 demo and resource tracks
 - 05/25 Got 2 papers in IJCAI'25, 1 paper in ACL'25, and 1 paper in KDD'25
 - 03/25 Joined Intuit AI Research as a Staff Research Scientist
 - Gave a talk at LinkedIn Market AI on LLM Agents [slides](), thank Dr. Liangjie Hong for the invitation
 - 11/24 Invited to serve as PC co-chair of the industry track of IEEE DSAA'25
-- 11/24 Invited by Dr. Jing Ma to give a guest lecture on conformal causal inference at Case Western Reserve University [slides]() 
+- 11/24 Invited by Dr. Jing Ma to give a guest lecture on conformal causal inference at Case Western Reserve University [slides](https://drive.google.com/file/d/1HxTH_eDkR4eI-ITIdNX3nioilpU1Criz/view) 
 - 10/24 A paper accepted to NeurIPS'24
 - 08/24 Invited to present at [2nd Workshop on Causal Inference and Machine Learning in Practice @ KDD'24](https://causal-machine-learning.github.io/kdd2024-workshop/)
 
