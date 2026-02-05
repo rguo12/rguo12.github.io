@@ -7,10 +7,12 @@ redirect_from:
   - /about.html
 ---
 
-Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research focus is LLM Agents, he also work on LLM reasoning, causal machine learning, and uncertainty quantification. Prior to joining Intuit, he was a Researcher at TikTok/ByteDance Research (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
+Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research interest includes LLMs as causal world models, tool-using agents, LLM reasoning, and causal machine learning.
+
+Prior to joining Intuit, he was a ML Researcher at TikTok/ByteDance Research (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
 
 Research Interests:
-- LLMs (Tool-using Agents, Reasoning, World Models)
+- LLMs (Text World Models, Tool-using Agents, Reasoning)
 - Causal ML
 - Data Mining
 
@@ -48,7 +50,7 @@ Experience:
 
 Students and Interns (and papers co-authored with me)
 - [Maolin Wang](https://morin.wang/) (PhD Student@City University of Hong Kong, Co-supervised w. Xiangyu Zhao and Junhui Wang)
-  - Too many to show
+  - Too many to show here
 - [Zonghao Chen](https://hudsonchen.github.io/) (PhD Student@UCL, Intern@ByteDance Research)
   - KDD'24
 - Tongxin Yin (PhD Student@UMich, Intern@ByteDance Research)
