@@ -7,16 +7,19 @@ redirect_from:
   - /about.html
 ---
 
-Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research interest includes LLMs as causal world models, tool-using agents, LLM reasoning, and causal machine learning.
+Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research interest includes, tool-using agents, LLMs as (causal) world models, LLM reasoning, and causal machine learning.
 
 Prior to joining Intuit, he was a ML Researcher at TikTok/ByteDance Research (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
 
 Research Interests:
-- LLMs (Text World Models, Tool-using Agents, Reasoning)
+- LLMs (Tool-using Agents, Text World Models, LLM Reasoning)
 - Causal ML
 - Data Mining
 
 News
+- 04/26 Two papers accepted to ACL'26.
+- 04/26 Invited to serve as a Senior PC for CIKM'26.
+- 02/26 Invited to be a reviewer of research proposals submitted to Hong Kong Research Grant Council (RCG).
 - 01/26 We are organizing the [CausalBench Workshop @ WSDM'26](https://wsdm26.causalbench.org/) with ASU and Amazon. See you in Boise, Idaho!
 - 12/25 Our paper [Confidence-aware Fine-tuning of Sequential Recommendation Systems via Conformal Prediction](https://arxiv.org/pdf/2402.08976) won best student paper award in IEEE BigData'25
 - 09/25 A paper accepted to Neurips'25
