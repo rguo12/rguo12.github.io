@@ -18,6 +18,8 @@ Research Interests:
 
 News
 - 04/26 Two papers accepted to ACL'26.
+  - ToolPRMBench: We introduced the first PRM bench for tool use.
+  - RIMRULE: A rule learning based framework to improve prompts for tool-usnig agents.
 - 04/26 Invited to serve as a Senior PC for CIKM'26.
 - 02/26 Invited to be a reviewer of research proposals submitted to Hong Kong Research Grant Council (RCG).
 - 01/26 We are organizing the [CausalBench Workshop @ WSDM'26](https://wsdm26.causalbench.org/) with ASU and Amazon. See you in Boise, Idaho!
