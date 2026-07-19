@@ -36,6 +36,45 @@ def greet(name):
 ```
 ```
 
+## English and Chinese versions
+
+For a bilingual post, create two Markdown files: one English and one Chinese.
+Give them the same `translation_key`, and set `lang` to `en` or `zh`. The
+English file is what appears in the blog, tag, and category archives; each
+version has a language switcher linking readers to the other one.
+
+For example, use these filenames:
+
+```
+_posts/2026-07-20-my-post.md
+_posts/2026-07-20-my-post-zh.md
+```
+
+Use matching front matter in the two files (with the appropriate title and
+content for each language):
+
+```markdown
+---
+title: "My post title"
+date: 2026-07-20
+lang: en
+translation_key: my-post
+---
+```
+
+```markdown
+---
+title: "我的文章标题"
+date: 2026-07-20
+lang: zh
+translation_key: my-post
+---
+```
+
+Use a unique, URL-safe `translation_key` such as `causal-ml-notes`. Both
+versions must use exactly the same key. A post without these fields continues
+to work normally.
+
 ## Notes
 
 - Do not put spaces in the filename's date portion; the date determines the

@@ -1,13 +1,13 @@
 ---
-title: "Notes on Causal ML, Reinforcement Learning, and Life"
+title: "关于因果机器学习、强化学习与生活的笔记"
 date: 2026-07-19
+lang: zh
+translation_key: demystifying
 tags:
   - causal inference
   - reinforcement learning
   - personal notes
 ---
-
-if you don't understand you can translate it
 
 不再沉默。从今天开始我向伟大的Tony学习，写博客（当然他主要是写日记）。写文字最好的一点是，毫无压力地做自己，所以我会写中文，这样更自在。
 
