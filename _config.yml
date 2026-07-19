@@ -24,7 +24,7 @@ author:
   avatar           : "profile.jpg"
   name             : # ""
   pronouns         : # example: "she/her"  
-  bio              : "ML Researcher working on LLM Agents"
+  bio              :
   location         : "Mountain View"
   employer         : "Intuit AI"
   uri              : # URL
