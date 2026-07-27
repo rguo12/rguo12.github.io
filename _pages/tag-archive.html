@@ -12,7 +12,7 @@ author_profile: true
   {% assign posts = group_items[forloop.index0] %}
   <h2 id="{{ tag | slugify }}" class="archive__subtitle">{{ tag }}</h2>
   {% for post in posts %}
-    {% unless post.lang == "zh" %}
+    {% unless post.lang == "en" %}
     {% include archive-single.html %}
     {% endunless %}
   {% endfor %}

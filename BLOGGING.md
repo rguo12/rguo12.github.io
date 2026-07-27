@@ -40,7 +40,7 @@ def greet(name):
 
 For a bilingual post, create two Markdown files: one English and one Chinese.
 Give them the same `translation_key`, and set `lang` to `en` or `zh`. The
-English file is what appears in the blog, tag, and category archives; each
+Chinese file is what appears in the blog, tag, and category archives; each
 version has a language switcher linking readers to the other one.
 
 For example, use these filenames:
