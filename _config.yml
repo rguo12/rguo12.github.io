@@ -14,7 +14,7 @@ name                     : &name "Ruocheng Guo"
 description              : &description ""
 url                      : https://rguo12.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : # "academicpages/academicpages.github.io"
+repository               : "rguo12/rguo12.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
@@ -82,7 +82,9 @@ future                   : true
 read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
 talkmap_link             : false #change to true to add link to talkmap on talks page
 comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
+  provider               : "custom"
+  utterances:
+    repo                  : "rguo12/rguo12.github.io"
   disqus:
     shortname            :
   discourse:
