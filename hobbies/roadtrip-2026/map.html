@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Road Trip: Mountain View, CA → Bellevue, WA</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --surface-1:#fcfcfb; --page:#f4f4f1; --panel:#ffffff;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --border:rgba(11,11,11,0.10);
+    --blue:#256abf; --route:#eb6834; --routecase:#ffffff;
+    --waterfall:#1baf7a; --park:#008300; --city:#2a78d6; --lodging:#eda100;
+    --scenic:#eb6834; --start:#4a3aa7; --dest:#e34948;
+    --bar:#9ec5f4; --barstrong:#3987e5;
+  }
+  @media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){
+    --surface-1:#1a1a19; --page:#0d0d0d; --panel:#161615;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --border:rgba(255,255,255,0.10);
+    --blue:#3987e5; --route:#eb6834; --routecase:#ffffff;
+    --waterfall:#199e70; --park:#0aa30a; --city:#3987e5; --lodging:#c98500;
+    --scenic:#d95926; --start:#9085e9; --dest:#e66767;
+    --bar:#184f95; --barstrong:#3987e5;
+  }}
+  :root[data-theme="dark"]{
+    --surface-1:#1a1a19; --page:#0d0d0d; --panel:#161615;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --border:rgba(255,255,255,0.10);
+    --blue:#3987e5; --route:#eb6834; --routecase:#ffffff;
+    --waterfall:#199e70; --park:#0aa30a; --city:#3987e5; --lodging:#c98500;
+    --scenic:#d95926; --start:#9085e9; --dest:#e66767;
+    --bar:#184f95; --barstrong:#3987e5;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--page);color:var(--text-primary);}
+  .wrap{display:flex;height:100vh;width:100%;overflow:hidden}
+  #map{flex:1 1 auto;height:100%;background:var(--surface-1);min-width:0}
+  .panel{flex:0 0 380px;max-width:44%;height:100%;overflow-y:auto;background:var(--panel);border-left:1px solid var(--border);padding:22px 20px 40px}
+  .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-size:21px;line-height:1.25;margin:6px 0 2px;font-weight:700}
+  .sub{color:var(--text-secondary);font-size:13px;margin-bottom:18px}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+  .tile{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:12px 13px}
+  .tile .v{font-size:24px;font-weight:700;line-height:1;letter-spacing:-.01em}
+  .tile .v small{font-size:13px;font-weight:600;color:var(--text-secondary);margin-left:2px}
+  .tile .l{font-size:11px;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.06em}
+  .tile.wide{grid-column:1 / -1}
+  .sec{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-secondary);margin:8px 0 10px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-bottom:20px}
+  .lg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-secondary)}
+  .dot{width:11px;height:11px;border-radius:50%;border:2px solid var(--routecase);box-shadow:0 0 0 1px var(--border)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:0 0 6px;border-bottom:1px solid var(--grid)}
+  th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+  td{padding:8px 0;border-bottom:1px solid var(--grid);vertical-align:middle}
+  .legname{font-weight:600;font-size:12.5px}
+  .legname .n{color:var(--muted);font-weight:600;margin-right:5px;font-variant-numeric:tabular-nums}
+  .arrow{color:var(--muted);font-size:11px}
+  .barcell{position:relative;min-width:70px}
+  .barbg{position:absolute;left:0;top:50%;transform:translateY(-50%);height:16px;border-radius:3px;background:linear-gradient(90deg,var(--bar),var(--barstrong));opacity:.35}
+  .barval{position:relative;font-variant-numeric:tabular-nums;font-weight:600;padding-left:4px}
+  .foot{margin-top:16px;font-size:11px;color:var(--muted);line-height:1.5}
+  .toggle{position:absolute;top:12px;right:12px;z-index:1000;background:var(--panel);border:1px solid var(--border);color:var(--text-secondary);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;font-family:inherit}
+  .leaflet-popup-content-wrapper{border-radius:10px}
+  .pin{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;border-radius:50%;border:2px solid var(--routecase);box-shadow:0 1px 4px rgba(0,0,0,.35);font-variant-numeric:tabular-nums}
+  .pp b{font-size:13px}
+  .pp .t{color:#666;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  @media (max-width:820px){
+    .wrap{flex-direction:column;height:auto}
+    #map{height:56vh;flex:none;width:100%}
+    .panel{flex:none;max-width:100%;width:100%;border-left:none;border-top:1px solid var(--border);height:auto;overflow:visible}
+  }
+</style>
+</head>
+<body>
+<button class="toggle" id="tg">◐ Theme</button>
+<div class="wrap">
+  <div id="map"></div>
+  <aside class="panel">
+    <div class="kicker">Summer Road Trip</div>
+    <h1>Mountain View, CA → Bellevue, WA</h1>
+    <div class="sub">A waterfall-and-volcanoes run up the spine of the Cascades — 18 stops.</div>
+    <div class="tiles" id="tiles"></div>
+    <div class="sec">Legend</div>
+    <div class="legend" id="legend"></div>
+    <div class="sec">Leg-by-leg</div>
+    <table>
+      <thead><tr><th>Segment</th><th class="num">Drive</th><th class="num">Distance</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="foot" id="foot"></div>
+  </aside>
+</div>
+<script>
+const DATA = {"stops":[{"name":"Mountain View, CA","lat":37.3861,"lon":-122.0839,"type":"Start"},{"name":"Bigfoot Lodging, Shingletown","lat":40.4924,"lon":-121.8891,"type":"Lodging"},{"name":"Lassen Volcanic National Park","lat":40.4377,"lon":-121.5322,"type":"National Park"},{"name":"Green Gables Motel & Suites","lat":40.8819,"lon":-121.66,"type":"Lodging"},{"name":"Burney Falls","lat":41.0107,"lon":-121.6517,"type":"Waterfall"},{"name":"McCloud Falls","lat":41.2454,"lon":-122.0089,"type":"Waterfall"},{"name":"Klamath Falls","lat":42.2249,"lon":-121.7817,"type":"City"},{"name":"Watchman Trail, Crater Lake","lat":42.9271,"lon":-122.172,"type":"Trail / Park"},{"name":"Toketee Falls","lat":43.2665,"lon":-122.4185,"type":"Waterfall"},{"name":"Watson Falls","lat":43.2429,"lon":-122.396,"type":"Waterfall"},{"name":"Eugene","lat":44.0521,"lon":-123.0868,"type":"City"},{"name":"Heceta Head Lighthouse","lat":44.1373,"lon":-124.1281,"type":"Lighthouse"},{"name":"Cape Perpetua Lookout","lat":44.2807,"lon":-124.1073,"type":"Coastal Lookout"},{"name":"Hilton Garden Inn, Wilsonville","lat":45.3038,"lon":-122.7663,"type":"Lodging"},{"name":"Multnomah Falls","lat":45.5762,"lon":-122.1158,"type":"Waterfall"},{"name":"Bridal Veil Falls","lat":45.5537,"lon":-122.1804,"type":"Waterfall"},{"name":"Vista House","lat":45.5395,"lon":-122.2443,"type":"Scenic Overlook"},{"name":"Mt. St. Helens Silver Lake Visitor Center","lat":46.2967,"lon":-122.8188,"type":"Visitor Center"},{"name":"Bellevue, WA","lat":47.6104,"lon":-122.2007,"type":"Destination"}],"legs":[{"from":"Mountain View, CA","to":"Bigfoot Lodging, Shingletown","miles":255.5,"hours":5.08,"hm":"5h 4m"},{"from":"Bigfoot Lodging, Shingletown","to":"Lassen Volcanic National Park","miles":46.7,"hours":1.28,"hm":"1h 17m"},{"from":"Lassen Volcanic National Park","to":"Green Gables Motel & Suites","miles":68.9,"hours":1.81,"hm":"1h 48m"},{"from":"Green Gables Motel & Suites","to":"Burney Falls","miles":10.9,"hours":0.27,"hm":"0h 16m"},{"from":"Burney Falls","to":"McCloud Falls","miles":36.5,"hours":0.79,"hm":"0h 47m"},{"from":"McCloud Falls","to":"Klamath Falls","miles":98.7,"hours":1.99,"hm":"1h 59m"},{"from":"Klamath Falls","to":"Watchman Trail, Crater Lake","miles":62.2,"hours":1.57,"hm":"1h 34m"},{"from":"Watchman Trail, Crater Lake","to":"Toketee Falls","miles":40.2,"hours":1.12,"hm":"1h 7m"},{"from":"Toketee Falls","to":"Watson Falls","miles":2.7,"hours":0.11,"hm":"0h 6m"},{"from":"Watson Falls","to":"Eugene","miles":91.6,"hours":2.75,"hm":"2h 45m"},{"from":"Eugene","to":"Heceta Head Lighthouse","miles":73.1,"hours":1.83,"hm":"1h 49m"},{"from":"Heceta Head Lighthouse","to":"Cape Perpetua Lookout","miles":10.8,"hours":0.27,"hm":"0h 16m"},{"from":"Cape Perpetua Lookout","to":"Hilton Garden Inn, Wilsonville","miles":141.2,"hours":3.25,"hm":"3h 14m"},{"from":"Hilton Garden Inn, Wilsonville","to":"Multnomah Falls","miles":46.8,"hours":1.06,"hm":"1h 3m"},{"from":"Multnomah Falls","to":"Bridal Veil Falls","miles":3.8,"hours":0.12,"hm":"0h 7m"},{"from":"Bridal Veil Falls","to":"Vista House","miles":4.6,"hours":0.13,"hm":"0h 7m"},{"from":"Vista House","to":"Mt. St. Helens Silver Lake Visitor Center","miles":80.0,"hours":1.67,"hm":"1h 40m"},{"from":"Mt. St. Helens Silver Lake Visitor Center","to":"Bellevue, WA","miles":124.2,"hours":2.59,"hm":"2h 35m"}],"route":[[37.38604,-122.08374],[37.4251,-121.91509],[37.52685,-121.9458],[37.59128,-121.87004],[37.89637,-122.07058],[37.96016,-122.05271],[38.06173,-122.13134],[38.10566,-122.10306],[38.21623,-122.13737],[38.37262,-121.95349],[38.82149,-121.93864],[39.21023,-122.18021],[40.18128,-122.22385],[40.39772,-122.00406],[40.4348,-121.86995],[40.49253,-121.88926],[40.49603,-121.86099],[40.50885,-121.8222],[40.51531,-121.80921],[40.51737,-121.7976],[40.51849,-121.68281],[40.52323,-121.6804],[40.52919,-121.66844],[40.52927,-121.64264],[40.53272,-121.63632],[40.53216,-121.62197],[40.54182,-121.60488],[40.53825,-121.59315],[40.54454,-121.57772],[40.53994,-121.57514],[40.53625,-121.56871],[40.53767,-121.55142],[40.54322,-121.54134],[40.55323,-121.53793],[40.56232,-121.52896],[40.56984,-121.52911],[40.55738,-121.51375],[40.55309,-121.51289],[40.55075,-121.50809],[40.55154,-121.50372],[40.54729,-121.49613],[40.5352,-121.49078],[40.52362,-121.48144],[40.52062,-121.47153],[40.51618,-121.46565],[40.50958,-121.46591],[40.51046,-121.46173],[40.50736,-121.45419],[40.50323,-121.45126],[40.49695,-121.42699],[40.48759,-121.42498],[40.46624,-121.43963],[40.4632,-121.45313],[40.46063,-121.45473],[40.45936,-121.46896],[40.46361,-121.47768],[40.46691,-121.47623],[40.46499,-121.46475],[40.473,-121.47846],[40.47637,-121.47837],[40.4704,-121.49223],[40.47209,-121.49218],[40.47102,-121.49501],[40.47476,-121.49916],[40.474,-121.50482],[40.46607,-121.50544],[40.46734,-121.5123],[40.466,-121.51543],[40.468,-121.51728],[40.46549,-121.51812],[40.46548,-121.52591],[40.4642,-121.52722],[40.46332,-121.52431],[40.45702,-121.52749],[40.45482,-121.52548],[40.45748,-121.52617],[40.45688,-121.52417],[40.44493,-121.51944],[40.44527,-121.52635],[40.44254,-121.52833],[40.4494,-121.53452],[40.44662,-121.53677],[40.43973,-121.53586],[40.43617,-121.53367],[40.43752,-121.53255],[40.4494,-121.53452],[40.44254,-121.52833],[40.44493,-121.51944],[40.45702,-121.52749],[40.46543,-121.52601],[40.46607,-121.50544],[40.474,-121.50482],[40.4704,-121.49223],[40.47637,-121.47837],[40.46499,-121.46475],[40.46691,-121.47623],[40.46361,-121.47768],[40.45936,-121.46896],[40.46068,-121.45453],[40.47243,-121.43384],[40.49482,-121.42572],[40.50958,-121.46591],[40.51618,-121.46565],[40.52362,-121.48144],[40.54729,-121.49613],[40.55309,-121.51289],[40.56982,-121.52899],[40.54225,-121.54222],[40.53647,-121.56928],[40.55193,-121.58005],[40.57073,-121.57293],[40.59197,-121.53767],[40.60278,-121.52974],[40.62304,-121.48116],[40.64285,-121.47121],[40.67485,-121.44128],[40.67914,-121.4255],[40.70434,-121.41817],[40.72856,-121.43041],[40.74539,-121.47977],[40.75899,-121.49783],[40.80227,-121.51355],[40.83322,-121.51409],[40.87996,-121.56357],[40.93814,-121.60663],[40.8818,-121.65993],[40.8828,-121.66033],[40.96583,-121.61591],[40.97398,-121.60663],[41.04092,-121.63284],[41.04351,-121.63647],[41.04446,-121.64594],[41.04766,-121.65057],[41.0466,-121.65154],[41.01547,-121.64578],[41.01608,-121.62344],[41.01995,-121.62138],[41.03406,-121.62937],[41.04416,-121.6314],[41.06027,-121.64643],[41.09998,-121.6381],[41.10653,-121.64102],[41.12424,-121.63816],[41.13651,-121.63962],[41.1512,-121.65049],[41.16166,-121.66391],[41.19233,-121.74106],[41.20069,-121.75198],[41.20201,-121.76963],[41.20489,-121.78009],[41.21978,-121.79314],[41.23292,-121.79737],[41.24469,-121.80638],[41.26589,-121.85585],[41.26772,-121.91444],[41.26064,-121.96383],[41.25677,-122.03011],[41.24897,-122.02651],[41.24476,-122.00886],[41.25677,-122.03011],[41.25122,-122.13712],[41.26963,-122.18094],[41.26516,-122.23245],[41.28843,-122.27695],[41.28633,-122.3042],[41.33267,-122.33259],[41.37344,-122.3744],[41.4384,-122.38726],[41.44828,-122.36403],[41.47712,-122.34992],[41.51975,-122.30644],[41.53405,-122.27046],[41.53655,-122.23577],[41.57015,-122.19805],[41.61857,-122.20075],[41.63797,-122.18937],[41.64384,-122.13064],[41.69004,-122.04164],[41.75605,-122.0664],[41.82896,-122.0054],[42.06315,-121.85217],[42.12592,-121.8262],[42.15462,-121.7998],[42.18631,-121.80162],[42.22518,-121.7814],[42.21973,-121.78956],[42.25127,-121.79448],[42.26451,-121.81044],[42.32917,-121.81787],[42.34386,-121.8288],[42.38472,-121.81365],[42.43785,-121.86668],[42.53159,-121.88613],[42.57794,-121.92133],[42.63407,-121.93777],[42.66374,-121.96528],[42.695,-121.97249],[42.70094,-121.99591],[42.7325,-122.00862],[42.74453,-122.04784],[42.80324,-122.07766],[42.81676,-122.11728],[42.86159,-122.16591],[42.87166,-122.16968],[42.86803,-122.14477],[42.89913,-122.13285],[42.90514,-122.136],[42.90155,-122.14805],[42.91183,-122.14804],[42.92861,-122.17042],[42.93737,-122.17168],[42.94156,-122.18068],[42.94551,-122.16959],[42.95418,-122.17362],[42.96571,-122.1518],[42.98249,-122.15233],[42.9946,-122.13622],[43.03464,-122.11734],[43.05458,-122.12256],[43.08739,-122.1163],[43.10089,-122.13009],[43.12212,-122.13474],[43.13351,-122.12619],[43.15827,-122.12447],[43.23496,-122.14152],[43.25341,-122.16031],[43.25825,-122.17262],[43.2568,-122.20951],[43.24719,-122.23649],[43.24943,-122.26358],[43.24622,-122.30572],[43.25134,-122.32845],[43.24372,-122.34985],[43.24079,-122.37405],[43.24979,-122.3962],[43.26616,-122.41839],[43.26615,-122.41809],[43.26562,-122.41775],[43.26634,-122.41765],[43.26642,-122.41711],[43.26528,-122.41624],[43.26402,-122.41383],[43.26152,-122.41316],[43.25798,-122.40934],[43.25667,-122.40651],[43.25648,-122.40232],[43.25608,-122.40058],[43.25533,-122.39951],[43.25369,-122.39818],[43.25118,-122.39488],[43.24998,-122.39517],[43.24979,-122.3962],[43.24713,-122.39001],[43.24457,-122.39185],[43.24451,-122.39301],[43.24497,-122.39522],[43.26094,-122.41773],[43.26368,-122.44714],[43.29319,-122.47611],[43.30558,-122.50495],[43.30418,-122.52495],[43.29185,-122.5444],[43.28695,-122.59395],[43.29589,-122.60733],[43.30456,-122.67498],[43.32798,-122.69815],[43.34557,-122.73676],[43.35031,-122.7294],[43.37692,-122.75944],[43.41615,-122.78011],[43.43344,-122.77704],[43.44697,-122.75999],[43.4883,-122.7853],[43.51121,-122.78251],[43.51965,-122.77141],[43.51741,-122.77878],[43.53876,-122.77936],[43.55482,-122.79551],[43.55185,-122.77436],[43.58618,-122.74667],[43.66597,-122.80757],[43.68411,-122.84076],[43.69632,-122.83819],[43.70864,-122.85941],[43.7332,-122.86357],[43.73787,-122.88513],[43.77957,-122.94905],[43.77733,-122.96295],[43.79148,-122.97103],[43.78908,-123.0233],[43.82107,-123.03455],[43.86854,-123.01262],[43.99557,-123.00561],[44.03363,-123.03149],[44.0521,-123.08674],[44.05595,-123.08528],[44.05335,-123.12277],[44.04778,-123.12301],[44.04843,-123.19447],[44.05581,-123.22436],[44.05262,-123.25103],[44.05437,-123.35043],[44.04945,-123.42042],[44.06713,-123.45494],[44.07431,-123.512],[44.07124,-123.52545],[44.04923,-123.53442],[44.03827,-123.54991],[44.02849,-123.60629],[44.01626,-123.61115],[44.00938,-123.6046],[43.99417,-123.6189],[44.00656,-123.66321],[43.99779,-123.67717],[43.99888,-123.69782],[44.00981,-123.7079],[44.00447,-123.75482],[44.01348,-123.77099],[44.01408,-123.78721],[44.02162,-123.79699],[44.0211,-123.80813],[44.03299,-123.85492],[44.01742,-123.8636],[44.02354,-123.88397],[44.02306,-123.90715],[44.01588,-123.9172],[44.01989,-123.96685],[44.0176,-123.98424],[43.97855,-124.06043],[43.97447,-124.0987],[43.97533,-124.10255],[44.06545,-124.09816],[44.09104,-124.11015],[44.10114,-124.12065],[44.11307,-124.12349],[44.11831,-124.11785],[44.12181,-124.12641],[44.13474,-124.12163],[44.13751,-124.12491],[44.13794,-124.11953],[44.13948,-124.1175],[44.15629,-124.11613],[44.16548,-124.11335],[44.17225,-124.1158],[44.18567,-124.1154],[44.18755,-124.11366],[44.19141,-124.11419],[44.19814,-124.11241],[44.20687,-124.11492],[44.21132,-124.11314],[44.21799,-124.11343],[44.22527,-124.10911],[44.24906,-124.11212],[44.25713,-124.10925],[44.26167,-124.1101],[44.26433,-124.10677],[44.26956,-124.10762],[44.27549,-124.11333],[44.2783,-124.11142],[44.28071,-124.1073],[44.28817,-124.113],[44.30846,-124.09925],[44.41214,-124.08384],[44.43115,-124.05643],[44.41605,-124.0364],[44.41172,-123.96759],[44.40467,-123.94066],[44.39697,-123.9371],[44.4138,-123.90646],[44.39917,-123.8666],[44.39983,-123.8313],[44.3924,-123.83106],[44.39241,-123.8451],[44.38503,-123.82926],[44.35015,-123.83891],[44.36666,-123.82577],[44.36982,-123.80673],[44.37979,-123.80863],[44.38161,-123.70741],[44.35914,-123.71228],[44.34999,-123.7254],[44.34388,-123.71577],[44.34596,-123.69005],[44.36593,-123.69024],[44.37113,-123.64756],[44.38523,-123.63068],[44.38573,-123.58569],[44.41082,-123.5715],[44.42339,-123.54076],[44.46379,-123.50858],[44.47483,-123.46572],[44.51691,-123.42819],[44.5411,-123.38539],[44.53886,-123.35594],[44.56453,-123.2518],[44.56726,-123.17247],[44.55492,-123.06044],[44.75377,-123.05069],[44.83398,-123.0091],[44.86116,-123.00962],[44.89993,-122.98434],[44.99834,-123.00006],[45.07291,-122.95972],[45.1945,-122.83655],[45.27929,-122.77],[45.3038,-122.76635],[45.30335,-122.76857],[45.30692,-122.76907],[45.33979,-122.76884],[45.40292,-122.74459],[45.43871,-122.74363],[45.45278,-122.72622],[45.45402,-122.71603],[45.46987,-122.68929],[45.47061,-122.67777],[45.4863,-122.67907],[45.49272,-122.67365],[45.50505,-122.6736],[45.50978,-122.66675],[45.52483,-122.66407],[45.52959,-122.64892],[45.53047,-122.63552],[45.53421,-122.62935],[45.53189,-122.61814],[45.52728,-122.60805],[45.53552,-122.58794],[45.53161,-122.56801],[45.53578,-122.56096],[45.54571,-122.55767],[45.5474,-122.55088],[45.54225,-122.50726],[45.54233,-122.4847],[45.53922,-122.45105],[45.54184,-122.4331],[45.53974,-122.41891],[45.54409,-122.40524],[45.54494,-122.39435],[45.54173,-122.3444],[45.53835,-122.32386],[45.5416,-122.29339],[45.5418,-122.25604],[45.54955,-122.19784],[45.56014,-122.17321],[45.5714,-122.15621],[45.57534,-122.14259],[45.57545,-122.12756],[45.57787,-122.11676],[45.57622,-122.12533],[45.57545,-122.12756],[45.5754,-122.12874],[45.57596,-122.13095],[45.57516,-122.13677],[45.57542,-122.13985],[45.57534,-122.14259],[45.57487,-122.14391],[45.57481,-122.14533],[45.57233,-122.15128],[45.5714,-122.15621],[45.57099,-122.15697],[45.56811,-122.15972],[45.56751,-122.16163],[45.56119,-122.17162],[45.56059,-122.17206],[45.55561,-122.17914],[45.55461,-122.17934],[45.55399,-122.18064],[45.55244,-122.18538],[45.54992,-122.18981],[45.548,-122.19628],[45.54575,-122.19876],[45.54145,-122.2058],[45.541,-122.20863],[45.54128,-122.21077],[45.53902,-122.21736],[45.53854,-122.21953],[45.53869,-122.22062],[45.53843,-122.22311],[45.53815,-122.22414],[45.53761,-122.2249],[45.53761,-122.22613],[45.53705,-122.22772],[45.53592,-122.23019],[45.53593,-122.23275],[45.53549,-122.23277],[45.53528,-122.23002],[45.53479,-122.23015],[45.53496,-122.23103],[45.53472,-122.23136],[45.5345,-122.23121],[45.53442,-122.23],[45.53408,-122.22985],[45.53408,-122.23296],[45.53377,-122.23377],[45.53281,-122.23442],[45.53284,-122.23479],[45.5336,-122.23536],[45.53403,-122.23671],[45.53461,-122.23754],[45.53529,-122.23779],[45.53633,-122.23909],[45.5376,-122.23898],[45.53787,-122.24038],[45.53908,-122.24094],[45.53923,-122.2415],[45.5389,-122.24284],[45.53831,-122.24373],[45.53858,-122.24401],[45.53974,-122.24396],[45.53986,-122.24453],[45.53952,-122.24474],[45.53915,-122.24442],[45.53946,-122.24422],[45.53205,-122.25098],[45.52975,-122.27764],[45.53247,-122.29018],[45.54138,-122.28913],[45.54519,-122.39212],[45.53941,-122.45169],[45.54771,-122.55758],[45.55365,-122.56604],[45.58201,-122.54356],[45.65296,-122.5675],[45.6801,-122.58791],[45.72184,-122.65331],[45.86821,-122.70738],[45.88605,-122.73053],[45.93183,-122.75888],[45.96336,-122.80812],[46.00056,-122.84276],[46.08926,-122.86965],[46.12935,-122.89843],[46.17213,-122.90439],[46.25298,-122.88352],[46.28531,-122.90165],[46.30611,-122.88216],[46.29334,-122.85459],[46.29664,-122.81871],[46.30611,-122.88216],[46.28531,-122.90165],[46.30114,-122.91113],[46.56426,-122.87656],[46.65693,-122.97725],[46.737,-122.97527],[46.79463,-123.01017],[46.97564,-122.93048],[47.03476,-122.88852],[47.111,-122.56988],[47.17521,-122.46738],[47.22989,-122.45971],[47.24314,-122.336],[47.32208,-122.29464],[47.41753,-122.28907],[47.46188,-122.26234],[47.46911,-122.20755],[47.49119,-122.19169],[47.54965,-122.19508],[47.57897,-122.17409],[47.61031,-122.20086]],"totals":{"miles":1198.3,"km":1928.5,"drive_seconds":99713.5,"drive_hm":"27h 41m","drive_hours":27.7,"num_stops":19,"num_legs":18},"derived":{"waterfalls":6,"states":["CA","OR","WA"],"n_states":3,"longest_leg":"Mountain View \u2192 Bigfoot Lodging","longest_mi":255.5,"avg_leg":66.6,"max_leg_mi":255.5}};
+const CAT = {
+  "Start":"start","Destination":"dest","Waterfall":"waterfall",
+  "National Park":"park","Trail / Park":"park","City":"city",
+  "Lodging":"lodging","Lighthouse":"scenic","Coastal Lookout":"scenic",
+  "Scenic Overlook":"scenic","Visitor Center":"scenic"
+};
+const CATLABEL = {start:"Start",dest:"Destination",waterfall:"Waterfall",park:"Park / Trail",city:"City / Town",lodging:"Lodging",scenic:"Scenic / Lookout"};
+function cssvar(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function catColor(c){return cssvar('--'+c);}
+
+// ---- Map ----
+const map = L.map('map',{scrollWheelZoom:true,zoomControl:true});
+
+// Base layers — real geography (terrain relief + satellite imagery) plus clean street maps
+const esriAttr='Tiles © Esri';
+const terrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{attribution:esriAttr+' — World Topo',maxZoom:19});
+const relief  = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',{attribution:esriAttr+' — Shaded Relief',maxZoom:13});
+const terrainGroup = L.layerGroup([relief, terrain]); // relief hillshade under topo lines/labels
+const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:esriAttr+' — World Imagery',maxZoom:19});
+const streets = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19});
+const streetsDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO',subdomains:'abcd',maxZoom:19});
+terrainGroup.addTo(map); // default: shows the actual mountains, rivers, and passes
+L.control.layers(
+  {"Terrain (relief)":terrainGroup,"Satellite":satellite,"Streets (light)":streets,"Streets (dark)":streetsDark},
+  {}, {position:'topright',collapsed:false}
+).addTo(map);
+function setTiles(){}  // base layer now chosen via the layer control
+
+// route line + markers (rebuildable so theme toggle recolors cleanly)
+const line = DATA.route;
+let layers=[];
+function clearLayers(){layers.forEach(l=>map.removeLayer(l));layers=[];}
+let routePoly;
+function drawRoute(){
+  clearLayers();
+  const casing=L.polyline(line,{color:cssvar('--routecase'),weight:7,opacity:.9}).addTo(map);
+  routePoly=L.polyline(line,{color:cssvar('--route'),weight:4,opacity:.95}).addTo(map);
+  layers.push(casing,routePoly);
+  DATA.stops.forEach((s,i)=>{
+    const cat=CAT[s.type]||"city";
+    const col=catColor(cat);
+    const last=DATA.stops.length-1;
+    const label=i===0?"S":(i===last?"F":String(i));
+    const size=(i===0||i===last)?30:24;
+    const icon=L.divIcon({className:'',html:`<div class="pin" style="width:${size}px;height:${size}px;background:${col}">${label}</div>`,iconSize:[size,size],iconAnchor:[size/2,size/2]});
+    const m=L.marker([s.lat,s.lon],{icon,zIndexOffset:(i===0||i===last)?1000:0}).addTo(map);
+    const ordinal=i===0?"Start":(i===last?"Finish":"Stop "+i);
+    m.bindPopup(`<div class="pp"><div class="t">${ordinal} · ${s.type}</div><b>${s.name}</b></div>`);
+    layers.push(m);
+  });
+}
+drawRoute();
+map.fitBounds(routePoly.getBounds().pad(0.08));
+
+// ---- Panel ----
+const T=DATA.totals, D=DATA.derived;
+const tiles=[
+  {v:T.miles.toLocaleString(undefined,{maximumFractionDigits:0}),s:"mi",l:"Total distance"},
+  {v:T.drive_hm,l:"Drive time (moving)"},
+  {v:DATA.stops.length,l:"Waypoints"},
+  {v:D.waterfalls,l:"Waterfalls"},
+];
+document.getElementById('tiles').innerHTML = tiles.map(t=>
+  `<div class="tile"><div class="v">${t.v}${t.s?`<small>${t.s}</small>`:''}</div><div class="l">${t.l}</div></div>`
+).join('');
+
+// legend (unique cats in route order)
+function buildLegend(){
+  const seen=[]; DATA.stops.forEach(s=>{const c=CAT[s.type]||"city"; if(!seen.includes(c))seen.push(c);});
+  document.getElementById('legend').innerHTML = seen.map(c=>
+    `<span class="lg"><span class="dot" style="background:${catColor(c)}"></span>${CATLABEL[c]}</span>`
+  ).join('');
+}
+buildLegend();
+
+// leg rows with distance bars
+const maxmi=Math.max(...DATA.legs.map(l=>l.miles));
+document.getElementById('rows').innerHTML = DATA.legs.map((l,i)=>{
+  const from = i===0? "Mountain View" : l.from.split(",")[0];
+  const to = l.to.split(",")[0];
+  const w=(l.miles/maxmi*100).toFixed(1);
+  return `<tr>
+    <td><div class="legname"><span class="n">${i+1}</span>${from} <span class="arrow">→</span> ${to}</div></td>
+    <td class="num">${l.hm}</td>
+    <td class="num barcell"><span class="barbg" style="width:${w}%"></span><span class="barval">${l.miles.toFixed(0)} mi</span></td>
+  </tr>`;
+}).join('');
+
+document.getElementById('foot').innerHTML =
+  `Longest leg: <b>${D.longest_leg}</b> (${D.longest_mi.toFixed(0)} mi). `+
+  `Distances &amp; drive times are real routing estimates (OSRM, driving profile); `+
+  `moving time excludes stops, meals, hikes, and traffic. Total across all 18 legs: `+
+  `${T.miles.toLocaleString(undefined,{maximumFractionDigits:0})} mi / ${T.drive_hm}.`;
+
+// theme toggle
+document.getElementById('tg').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const next = cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  setTiles();
+  drawRoute();
+  buildLegend();
+});
+</script>
+</body>
+</html>

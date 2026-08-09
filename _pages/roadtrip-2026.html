@@ -1,0 +1,161 @@
+---
+layout: archive
+title: "Road Trip 2026: Mountain View, CA → Bellevue, WA"
+permalink: /hobbies/roadtrip-2026/
+author_profile: false
+photos:
+  - file: burney-falls
+    title: "Burney Falls"
+    caption: "McArthur–Burney Falls Memorial State Park, CA"
+  - file: mid-mccloud
+    title: "Middle McCloud Falls"
+    caption: "McCloud River, CA"
+  - file: watchman-trail
+    title: "Watchman Trail"
+    caption: "Crater Lake National Park, OR"
+  - file: toketee
+    title: "Toketee Falls"
+    caption: "Umpqua National Forest, OR"
+  - file: heceta-head
+    title: "Heceta Head Lighthouse"
+    caption: "Oregon Coast"
+  - file: cape-perpetua
+    title: "Cape Perpetua"
+    caption: "Siuslaw National Forest, OR"
+  - file: multnomah
+    title: "Multnomah Falls"
+    caption: "Columbia River Gorge, OR"
+  - file: bridal-veil
+    title: "Bridal Veil Falls"
+    caption: "Columbia River Gorge, OR"
+---
+
+{% include base_path %}
+
+<style>
+  .trip-intro { font-size: 1.02em; color: #52514e; margin-bottom: 1.6em; }
+  .map-frame {
+    position: relative; width: 100%; height: 700px;
+    border: 1px solid #e1e0d9; border-radius: 8px; overflow: hidden;
+    background: #f4f4f1;
+  }
+  .map-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .map-note { font-size: .85em; color: #898781; margin: .6em 0 2.5em; }
+  .map-note a { text-decoration: none; }
+
+  .photo-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px; margin: 1.2em 0 1em; padding: 0; list-style: none;
+  }
+  .photo-grid figure { margin: 0; }
+  .photo-grid button {
+    display: block; padding: 0; border: 0; background: none; cursor: zoom-in; width: 100%;
+  }
+  .photo-grid img {
+    width: 100%; height: 200px; object-fit: cover; border-radius: 6px; display: block;
+    transition: opacity .15s ease;
+  }
+  .photo-grid button:hover img { opacity: .88; }
+  .photo-grid figcaption { font-size: .84em; color: #52514e; margin-top: .45em; line-height: 1.35; }
+  .photo-grid figcaption b { display: block; font-weight: 600; color: #0b0b0b; }
+
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 9999;
+    display: none; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 92vw; max-height: 82vh; object-fit: contain; }
+  .lightbox .lb-cap { color: #eee; font-size: .9em; margin-top: 12px; text-align: center; padding: 0 1em; }
+  .lightbox .lb-btn {
+    position: absolute; background: none; border: 0; color: #fff; font-size: 34px;
+    cursor: pointer; padding: 10px 18px; line-height: 1; opacity: .75;
+  }
+  .lightbox .lb-btn:hover { opacity: 1; }
+  .lb-prev { left: 6px; top: 50%; transform: translateY(-50%); }
+  .lb-next { right: 6px; top: 50%; transform: translateY(-50%); }
+  .lb-close { right: 8px; top: 8px; font-size: 28px; }
+  @media (max-width: 700px) {
+    .map-frame { height: 520px; }
+    .photo-grid img { height: 170px; }
+  }
+</style>
+
+<p class="trip-intro">
+  A waterfall-and-volcanoes run up the spine of the Cascades — about 1,200 miles and
+  28 hours of driving from the Bay Area to the Puget Sound, with 19 waypoints across
+  California, Oregon, and Washington. A few favorite stops are below; further down, the
+  interactive route map lets you switch base layers (terrain, satellite, streets), click
+  a pin for the stop, and scan the leg-by-leg table for drive times and distances.
+</p>
+
+<h2>Photos</h2>
+
+<ul class="photo-grid">
+  {% for p in page.photos %}
+  <li>
+    <figure>
+      <button type="button" data-idx="{{ forloop.index0 }}"
+              data-full="{{ base_path }}/images/roadtrip_2026/web/{{ p.file }}.jpg"
+              data-cap="{{ p.title }} — {{ p.caption }}">
+        <img src="{{ base_path }}/images/roadtrip_2026/thumb/{{ p.file }}.jpg"
+             alt="{{ p.title }}" loading="lazy">
+      </button>
+      <figcaption><b>{{ p.title }}</b>{{ p.caption }}</figcaption>
+    </figure>
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>The route</h2>
+
+<div class="map-frame">
+  <iframe src="{{ base_path }}/hobbies/roadtrip-2026/map.html"
+          title="Interactive road trip map: Mountain View, CA to Bellevue, WA"
+          loading="lazy"></iframe>
+</div>
+<p class="map-note">
+  Map not showing well on a small screen?
+  <a href="{{ base_path }}/hobbies/roadtrip-2026/map.html" target="_blank" rel="noopener">Open it full screen &rarr;</a>
+</p>
+
+<div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next photo">&#8250;</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+(function () {
+  var buttons = Array.prototype.slice.call(document.querySelectorAll('.photo-grid button'));
+  var lb = document.getElementById('lb');
+  var img = document.getElementById('lbImg');
+  var cap = document.getElementById('lbCap');
+  var cur = 0;
+
+  function show(i) {
+    cur = (i + buttons.length) % buttons.length;
+    var b = buttons[cur];
+    img.src = b.dataset.full;
+    img.alt = b.querySelector('img').alt;
+    cap.textContent = b.dataset.cap;
+  }
+  function open(i) { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function close() { lb.classList.remove('open'); document.body.style.overflow = ''; img.src = ''; }
+
+  buttons.forEach(function (b, i) { b.addEventListener('click', function () { open(i); }); });
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbPrev').addEventListener('click', function (e) { e.stopPropagation(); show(cur - 1); });
+  document.getElementById('lbNext').addEventListener('click', function (e) { e.stopPropagation(); show(cur + 1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowLeft') show(cur - 1);
+    else if (e.key === 'ArrowRight') show(cur + 1);
+  });
+})();
+</script>
+
+<p style="margin-top:2em"><a href="{{ base_path }}/hobbies/">&larr; Back to hobbies</a></p>

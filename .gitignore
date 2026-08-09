@@ -11,3 +11,9 @@ Gemfile.lock
 # Ingore files created by npm
 node_modules
 package-lock.json
+
+# Ignore the Sass cache created by local builds
+.sass-cache/
+
+# Full-res road trip originals (~44MB, not served); only web/ and thumb/ are committed
+images/roadtrip_2026/*.jpg
