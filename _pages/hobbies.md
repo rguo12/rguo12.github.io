@@ -34,7 +34,7 @@ with a camera.
 <ul class="hobby-list">
   <li class="hobby-card">
     <a href="{{ base_path }}/hobbies/roadtrip-2026/">
-      <img src="{{ base_path }}/images/roadtrip_2026/thumb/multnomah.jpg" alt="Multnomah Falls">
+      <img src="{{ base_path }}/images/roadtrip_2026/photos/multnomah.jpg" alt="Multnomah Falls">
     </a>
     <div>
       <div class="hobby-meta">Road trip &middot; Summer 2026</div>

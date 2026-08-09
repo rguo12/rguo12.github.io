@@ -64,7 +64,8 @@ photos:
     display: none; align-items: center; justify-content: center; flex-direction: column;
   }
   .lightbox.open { display: flex; }
-  .lightbox img { max-width: 92vw; max-height: 82vh; object-fit: contain; }
+  /* Capped at the file's native 800px so it never upscales into a blurry mess. */
+  .lightbox img { max-width: min(92vw, 800px); max-height: 82vh; object-fit: contain; }
   .lightbox .lb-cap { color: #eee; font-size: .9em; margin-top: 12px; text-align: center; padding: 0 1em; }
   .lightbox .lb-btn {
     position: absolute; background: none; border: 0; color: #fff; font-size: 34px;
@@ -94,10 +95,8 @@ photos:
   {% for p in page.photos %}
   <li>
     <figure>
-      <button type="button" data-idx="{{ forloop.index0 }}"
-              data-full="{{ base_path }}/images/roadtrip_2026/web/{{ p.file }}.jpg"
-              data-cap="{{ p.title }} — {{ p.caption }}">
-        <img src="{{ base_path }}/images/roadtrip_2026/thumb/{{ p.file }}.jpg"
+      <button type="button" data-cap="{{ p.title }} — {{ p.caption }}">
+        <img src="{{ base_path }}/images/roadtrip_2026/photos/{{ p.file }}.jpg"
              alt="{{ p.title }}" loading="lazy">
       </button>
       <figcaption><b>{{ p.title }}</b>{{ p.caption }}</figcaption>
@@ -136,9 +135,10 @@ photos:
 
   function show(i) {
     cur = (i + buttons.length) % buttons.length;
-    var b = buttons[cur];
-    img.src = b.dataset.full;
-    img.alt = b.querySelector('img').alt;
+    var b = buttons[cur], thumb = b.querySelector('img');
+    // Same file the grid already loaded, so opening is instant and costs no extra bytes.
+    img.src = thumb.src;
+    img.alt = thumb.alt;
     cap.textContent = b.dataset.cap;
   }
   function open(i) { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
