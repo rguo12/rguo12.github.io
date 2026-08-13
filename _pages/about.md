@@ -7,12 +7,14 @@ redirect_from:
   - /about.html
 ---
 
-Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research interest includes, tool-using agents, LLMs as (causal) world models, LLM reasoning, and causal machine learning.
+<!-- Ruocheng Guo is a Staff Research Scientist at Intuit AI Research. His current research interest includes, tool-using agents, LLMs as (causal) world models, LLM reasoning, and causal machine learning. -->
 
-Prior to joining Intuit, he was a ML Researcher at TikTok/ByteDance Research (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
+Ruocheng is a Senior Applied Scientist at Microsoft Frontier Tuning. His current research includes Environment Scaling for Agentic RL, LLMs as (causal) World Models, and more generally Automating Decision Making in Complex Environments through ML and Causal Inference.
+
+Prior to joining Microsoft, he was a Staff Research Scientist at Intuit, working on Causal Verification of Financial World Models. Before that, he was a ML Researcher at ByteDance Research/Tiktok (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
 
 Research Interests:
-- LLMs (Tool-using Agents, Text World Models, LLM Reasoning)
+- LLMs (Env Scaling, Agentic RL, Text World Models, LLM Reasoning)
 - Causal ML
 - Data Mining
 
