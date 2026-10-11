@@ -19,6 +19,8 @@ Research Interests:
 - Data Mining
 
 News
+- 08/26 Invited to serve as a Senior PC for AAAI'27
+- 08/26 Joined MSFT Frontier Tuning
 - 04/26 Two papers accepted to ACL'26.
   - ToolPRMBench: We introduced the first PRM bench for tool use.
   - RIMRULE: A rule learning based framework to improve prompts for tool-usnig agents.
