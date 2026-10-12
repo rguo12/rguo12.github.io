@@ -1,19 +1,24 @@
-# Ignore the contents of the _site directory
-_site/
+_site
+.bundle
+.DS_store
+.idea
+.jekyll-cache
+.jekyll-metadata
+.ruby-version
+.sass-cache
+.tweet-cache
+.venv
+assets/libs/
+assets/rendercv/rendercv_output/*.typ
+al-folio-upgrade-report.md
+node_modules/
+output/playwright/
+test-results/
+vendor
 
-# Ignore the directory for local files during development
-local/
-vendor/
+# Python bytecode from bin/ helper scripts
+__pycache__/
+*.pyc
 
-# Ignore the Gemfile that is generated
-Gemfile.lock
-
-# Ingore files created by npm
-node_modules
-package-lock.json
-
-# Ignore the Sass cache created by local builds
-.sass-cache/
-
-# Full-res road trip originals (~44MB, not served); only web/ and thumb/ are committed
+# Full-res road trip originals (not served); only images/roadtrip_2026/photos is committed
 images/roadtrip_2026/*.jpg

@@ -1,5 +1,0 @@
-{% if site.baseurl %}
-  {% assign base_path = site.baseurl %}
-{% else %}
-  {% assign base_path = "" %}
-{% endif %}

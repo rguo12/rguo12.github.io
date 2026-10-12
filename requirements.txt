@@ -1,1 +1,4 @@
-bibtexparser==1.4.0 
+nbconvert
+pyyaml
+rendercv[full]
+scholarly

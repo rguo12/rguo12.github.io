@@ -1,0 +1,30 @@
+---
+title: "在复杂环境下做出正确决策"
+date: 2026-07-20
+lang: zh
+permalink: /blog/zh/2026/decisions-in-complex-environments/
+layout: post
+translation_key: decisions-in-complex-environments
+tags:
+  - causal machine learning
+  - reinforcement learning
+  - research
+---
+
+> 这是中文版。[Read the English version]({{ "/blog/2026/decisions-in-complex-environments/" | relative_url }})
+
+
+# 技术
+
+## 长期目标
+在伟大的Fei-fei Li的自传《我看见的世界》中，最令我感到羞愧和发现和顶尖学者差距的一点就是我在PhD毕业后的一段时间缺乏长期researchch的目标，迷失了自我。另外一点当然就是我没有像她那样敢于冒险，并且在形势不利的情况下坚持自己的长期目标。
+
+我之前是不知道ImageNet也经历过如此大的质疑，在没有众包的情况下看不到完成的希望，在发布后经历了没有太多人关注的两年。如果是我的话，我根本无法想象自己在绝望和低谷中坚持前进那么长的时间，甚至要遭受导师的导师的质疑。如果没有mechanic turks，如果没有谷歌图片搜索，没有奇迹般的“非正统的”AlexNet出现在第三次的ImageNet比赛中并且一口气超过最好的svm10%，我们可能现在还在疯狂钻研Catboost和某种SVM。原来deep learning的历史转折点靠的不止是Hinton和他的学生们对神经网络，卷积核和反向传播的执着，Fei-fei和她的学生也在最初预计20年才可以完成的工作量下、在被使用传统模型质疑过大的数据集没有意义的时候，随时可能烧光经费的状态下坚持到了胜利。看到AlexNet那一段我真的泪流满面，ImageNet等来了AlexNet，GPU+众包+图片搜索引擎在背后造就了这一切，deep learning的成功真的是一个奇迹。
+
+我是那种非常痴迷于技术细节的人，所以当我了解到conformal prediction，或者minmax regret的时候，我立刻就想把它搞懂加入到我的research中来，发表相关的工作。但我完全没有考虑使用这些技术帮助我解决了什么难题。
+
+还好跟gpt聊天反思自己毕业后这几年的经历，还是能领悟到自己其实潜意识中有一个长期的research topic：**在复杂环境下做出正确决策**。我非常羡慕Fei-fei提到的那种看到任何东西都能想到ImageNet的那种痴迷状态。现在有了这个topic，我似乎可以问出一些之前不会去问的问题（以前纯paper machine思维）。比如：人类学习的时候，学不同东西的先后顺序是怎么确定的？比如打乒乓球，反胶选手，我们会先练上旋球，再练拉出台的下旋球，最后再练处理台内的短上旋/下旋，最后还得和使用特殊胶皮（比如长胶：上旋球打过去回来是下旋球）的对手对练。这非常intuitive，但是帮助机器学习设计学习顺序的时候我们如何从人类学习那里得到灵感来选择训练数据呢？或者说人类是否在这个任务中比机器更厉害呢？我知道Bengio提出了curriculum learning，但似乎跟人类的curriculum仍然相去甚远。这似乎是一个艰难的决策。
+
+Causality和RL是这个问题的不同视角，一个关注观测到的数据之下隐藏的假设，何时bias会侵蚀你的决策模型，如何mitigate这些bias，当然causal graph这个瓶颈令人讨厌而又无法避免。另一个则注意从当前的状态和动作估测未来回报，从当前这个瞬间看向未来，在大脑中想象那颗通往不同平行宇宙的search tree。
+
+现在有了这个长期目标，我会开始观察自己的每一个决策，去思考，去改进，一切似乎更有意思了。

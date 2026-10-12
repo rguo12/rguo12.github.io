@@ -1,11 +1,11 @@
 ---
-layout: archive
+layout: page
 title: "Hobbies"
 permalink: /hobbies/
-author_profile: true
+nav: true
+nav_order: 5
+description: Things I do when I am not doing research.
 ---
-
-{% include base_path %}
 
 Things I do when I'm not doing research: road trips, hiking, and chasing waterfalls
 with a camera.
@@ -33,12 +33,12 @@ with a camera.
 
 <ul class="hobby-list">
   <li class="hobby-card">
-    <a href="{{ base_path }}/hobbies/roadtrip-2026/">
-      <img src="{{ base_path }}/images/roadtrip_2026/photos/multnomah.jpg" alt="Multnomah Falls">
+    <a href="{{ site.baseurl }}/hobbies/roadtrip-2026/">
+      <img src="{{ site.baseurl }}/images/roadtrip_2026/photos/multnomah.jpg" alt="Multnomah Falls">
     </a>
     <div>
       <div class="hobby-meta">Road trip &middot; Summer 2026</div>
-      <h3><a href="{{ base_path }}/hobbies/roadtrip-2026/">Mountain View, CA &rarr; Bellevue, WA</a></h3>
+      <h3><a href="{{ site.baseurl }}/hobbies/roadtrip-2026/">Mountain View, CA &rarr; Bellevue, WA</a></h3>
       <p>1,200 miles up the spine of the Cascades: 19 waypoints, 6 waterfalls.
       Interactive route map and photos.</p>
     </div>

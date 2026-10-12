@@ -1,8 +1,8 @@
 ---
-layout: archive
+layout: page
 title: "Road Trip 2026: Mountain View, CA → Bellevue, WA"
 permalink: /hobbies/roadtrip-2026/
-author_profile: false
+description: Mountain View, CA to Bellevue, WA
 photos:
   - file: burney-falls
     title: "Burney Falls"
@@ -30,17 +30,16 @@ photos:
     caption: "Columbia River Gorge, OR"
 ---
 
-{% include base_path %}
 
 <style>
-  .trip-intro { font-size: 1.02em; color: #52514e; margin-bottom: 1.6em; }
+  .trip-intro { font-size: 1.02em; color: var(--global-text-color-light); margin-bottom: 1.6em; }
   .map-frame {
     position: relative; width: 100%; height: 700px;
-    border: 1px solid #e1e0d9; border-radius: 8px; overflow: hidden;
-    background: #f4f4f1;
+    border: 1px solid var(--global-divider-color); border-radius: 8px; overflow: hidden;
+    background: var(--global-card-bg-color);
   }
   .map-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
-  .map-note { font-size: .85em; color: #898781; margin: .6em 0 2.5em; }
+  .map-note { font-size: .85em; color: var(--global-text-color-light); margin: .6em 0 2.5em; }
   .map-note a { text-decoration: none; }
 
   .photo-grid {
@@ -56,8 +55,8 @@ photos:
     transition: opacity .15s ease;
   }
   .photo-grid button:hover img { opacity: .88; }
-  .photo-grid figcaption { font-size: .84em; color: #52514e; margin-top: .45em; line-height: 1.35; }
-  .photo-grid figcaption b { display: block; font-weight: 600; color: #0b0b0b; }
+  .photo-grid figcaption { font-size: .84em; color: var(--global-text-color-light); margin-top: .45em; line-height: 1.35; }
+  .photo-grid figcaption b { display: block; font-weight: 600; color: var(--global-text-color); }
 
   .lightbox {
     position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 9999;
@@ -96,7 +95,7 @@ photos:
   <li>
     <figure>
       <button type="button" data-cap="{{ p.title }} — {{ p.caption }}">
-        <img src="{{ base_path }}/images/roadtrip_2026/photos/{{ p.file }}.jpg"
+        <img src="{{ site.baseurl }}/images/roadtrip_2026/photos/{{ p.file }}.jpg"
              alt="{{ p.title }}" loading="lazy">
       </button>
       <figcaption><b>{{ p.title }}</b>{{ p.caption }}</figcaption>
@@ -108,13 +107,13 @@ photos:
 <h2>The route</h2>
 
 <div class="map-frame">
-  <iframe src="{{ base_path }}/hobbies/roadtrip-2026/map.html"
+  <iframe src="{{ site.baseurl }}/hobbies/roadtrip-2026/map.html"
           title="Interactive road trip map: Mountain View, CA to Bellevue, WA"
           loading="lazy"></iframe>
 </div>
 <p class="map-note">
   Map not showing well on a small screen?
-  <a href="{{ base_path }}/hobbies/roadtrip-2026/map.html" target="_blank" rel="noopener">Open it full screen &rarr;</a>
+  <a href="{{ site.baseurl }}/hobbies/roadtrip-2026/map.html" target="_blank" rel="noopener">Open it full screen &rarr;</a>
 </p>
 
 <div class="lightbox" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
@@ -158,4 +157,4 @@ photos:
 })();
 </script>
 
-<p style="margin-top:2em"><a href="{{ base_path }}/hobbies/">&larr; Back to hobbies</a></p>
+<p style="margin-top:2em"><a href="{{ site.baseurl }}/hobbies/">&larr; Back to hobbies</a></p>
