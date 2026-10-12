@@ -1,99 +1,89 @@
-# Writing blog posts
+# Writing posts
 
-This site is built with Jekyll. To publish a post, create a Markdown file in
-`_posts/` named `YYYY-MM-DD-your-post-title.md`. Jekyll turns it into a page
-automatically and adds it to the [Blog](/year-archive/) archive.
-
-Use this starting point:
+Create `_posts/YYYY-MM-DD-your-title.md`, commit, push to `master`. GitHub Actions builds and deploys.
 
 ```markdown
 ---
-title: "A clear, useful post title"
-date: 2026-07-19
-excerpt: "A one-sentence summary shown in listings."
-tags:
-  - machine learning
-  - research
----
-
-An introductory paragraph in **Markdown**.
-
-## A section heading
-
-Use a link: [my website](https://rguo12.github.io/).
-
-Inline math works with `\(` and `\)`: \(f(x) = x^2 + 1\).
-
-Display math works with either `\[` / `\]` or `$$`:
-
-\[
-  \mathcal{L}(\theta) = -\sum_{i=1}^{n} \log p_\theta(y_i \mid x_i).
-\]
-
-```python
-def greet(name):
-    return f"Hello, {name}!"
-```
-```
-
-## English and Chinese versions
-
-For a bilingual post, create two Markdown files: one English and one Chinese.
-Give them the same `translation_key`, and set `lang` to `en` or `zh`. The
-Chinese file is what appears in the blog, tag, and category archives; each
-version has a language switcher linking readers to the other one.
-
-For example, use these filenames:
-
-```
-_posts/2026-07-20-my-post.md
-_posts/2026-07-20-my-post-zh.md
-```
-
-Use matching front matter in the two files (with the appropriate title and
-content for each language):
-
-```markdown
----
-title: "My post title"
-date: 2026-07-20
-lang: en
-translation_key: my-post
+layout: post
+title: A clear post title
+date: 2026-10-10
+description: One-sentence summary shown in the blog list.
+tags: causal-inference reinforcement-learning
+categories: research
+thumbnail: assets/img/posts/my-post/cover.jpg   # optional
+toc:
+  sidebar: left                                  # optional table of contents
 ---
 ```
 
-```markdown
----
-title: "我的文章标题"
-date: 2026-07-20
-lang: zh
-translation_key: my-post
----
+## LaTeX
+
+Inline: `$$ f(x) = x^2 $$` or `\( f(x) = x^2 \)`. Display math:
+
+```
+$$
+\mathcal{L}(\theta) = -\sum_{i=1}^{n} \log p_\theta(y_i \mid x_i)
+$$
 ```
 
-Use a unique, URL-safe `translation_key` such as `causal-ml-notes`. Both
-versions must use exactly the same key. A post without these fields continues
-to work normally.
+## Images
 
-## Notes
+Put files in `assets/img/posts/<post-name>/` and use the figure include (click-to-zoom, responsive, dark-mode aware):
 
-- Do not put spaces in the filename's date portion; the date determines the
-  post URL and ordering.
-- Write ordinary prose with standard Markdown: headings, lists, links, images,
-  block quotes, and fenced code blocks are supported.
-- MathJax renders LaTeX in the browser. Use `\(...\)` for inline equations
-  and `\[...\]` or `$$...$$` for a centered equation. Avoid `$...$` inline
-  delimiters so currency values such as `$20` remain ordinary text.
-- If an equation contains a Liquid expression (two opening or closing curly
-  braces), surround the equation with Liquid's `raw` and `endraw` tags to
-  prevent Jekyll from interpreting it as a template expression.
+```liquid
+{% include figure.liquid path="assets/img/posts/my-post/plot.png" class="img-fluid rounded z-depth-1" caption="Figure 1. Caption here." %}
+```
 
-To preview changes locally after installing the Ruby dependencies, run:
+Side by side:
 
-```sh
+```liquid
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-md-0">
+    {% include figure.liquid path="assets/img/posts/my-post/a.png" class="img-fluid rounded" %}
+  </div>
+  <div class="col-sm mt-3 mt-md-0">
+    {% include figure.liquid path="assets/img/posts/my-post/b.png" class="img-fluid rounded" %}
+  </div>
+</div>
+```
+
+Plain Markdown `![alt](/assets/img/posts/my-post/plot.png)` also works.
+
+## Other things that work
+
+- Code blocks with highlighting (` ```python `), tables, footnotes (`[^1]`)
+- Mermaid / Chart.js / Plotly / Jupyter notebooks (see https://github.com/alshedivat/al-folio/tree/main/docs)
+- `giscus` comments: set `giscus.repo_id` and `category_id` in `_config.yml` (get them from https://giscus.app), then add `giscus_comments: true` to a post's front matter
+- `pinned: true` or `featured: true` in front matter to highlight a post
+
+## Preview locally
+
+```bash
+export PATH=/opt/homebrew/opt/ruby@3.3/bin:$PATH LC_ALL=en_US.UTF-8
 bundle install
-bundle exec jekyll serve -l -H localhost
+bundle exec jekyll serve      # http://localhost:4000
 ```
 
-Then open <http://localhost:4000/year-archive/>. Push the committed changes to
-GitHub and GitHub Pages will publish the site.
+# Publications
+
+`_bibliography/papers.bib` drives the Publications page. A GitHub Action
+(`.github/workflows/update-publications.yml`, Mondays, or run it manually from the
+Actions tab) syncs it with your Google Scholar profile:
+
+- papers on Scholar but not in the file are **appended** at the bottom;
+- existing entries are never overwritten, so you can freely add `selected={true}`,
+  `preview={fig.png}` (image in `assets/img/publication_preview/`), `pdf=`, `code=`,
+  `abbr={ICML}` etc. to any entry;
+- `bin/sync_openalex_publications.py` (OpenAlex, not rate-limited) fills gaps and sets
+  `pubtype = {published}` or `{preprint}` on each entry; the page shows these as two sections.
+  Change `pubtype` by hand if a paper is classified wrongly (it is never overwritten);
+- citation badges are turned off in `_config.yml` (`enable_publication_badges`); the counts need Scholar, which blocks automated requests.
+
+Google Scholar sometimes blocks requests from GitHub's servers. When that happens the run
+changes nothing and the site keeps its last data. Run locally instead:
+
+```bash
+pip install scholarly pyyaml
+python bin/sync_scholar_publications.py
+python bin/update_scholar_citations.py
+```

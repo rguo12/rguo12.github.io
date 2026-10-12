@@ -1,7 +1,8 @@
 ---
-title: "在复杂环境下做出正确决策"
+title: "Making the Right Decisions in Complex Environments"
 date: 2026-07-20
-lang: zh
+lang: en
+layout: post
 translation_key: decisions-in-complex-environments
 tags:
   - causal machine learning
@@ -9,17 +10,21 @@ tags:
   - research
 ---
 
-# 技术
+> [中文版]({{ "/blog/zh/2026/decisions-in-complex-environments/" | relative_url }}) (Chinese version) is available.
 
-## 长期目标
-在伟大的Fei-fei Li的自传《我看见的世界》中，最令我感到羞愧和发现和顶尖学者差距的一点就是我在PhD毕业后的一段时间缺乏长期researchch的目标，迷失了自我。另外一点当然就是我没有像她那样敢于冒险，并且在形势不利的情况下坚持自己的长期目标。
 
-我之前是不知道ImageNet也经历过如此大的质疑，在没有众包的情况下看不到完成的希望，在发布后经历了没有太多人关注的两年。如果是我的话，我根本无法想象自己在绝望和低谷中坚持前进那么长的时间，甚至要遭受导师的导师的质疑。如果没有mechanic turks，如果没有谷歌图片搜索，没有奇迹般的“非正统的”AlexNet出现在第三次的ImageNet比赛中并且一口气超过最好的svm10%，我们可能现在还在疯狂钻研Catboost和某种SVM。原来deep learning的历史转折点靠的不止是Hinton和他的学生们对神经网络，卷积核和反向传播的执着，Fei-fei和她的学生也在最初预计20年才可以完成的工作量下、在被使用传统模型质疑过大的数据集没有意义的时候，随时可能烧光经费的状态下坚持到了胜利。看到AlexNet那一段我真的泪流满面，ImageNet等来了AlexNet，GPU+众包+图片搜索引擎在背后造就了这一切，deep learning的成功真的是一个奇迹。
+# Technology
 
-我是那种非常痴迷于技术细节的人，所以当我了解到conformal prediction，或者minmax regret的时候，我立刻就想把它搞懂加入到我的research中来，发表相关的工作。但我完全没有考虑使用这些技术帮助我解决了什么难题。
+## A Long-Term Goal
 
-还好跟gpt聊天反思自己毕业后这几年的经历，还是能领悟到自己其实潜意识中有一个长期的research topic：**在复杂环境下做出正确决策**。我非常羡慕Fei-fei提到的那种看到任何东西都能想到ImageNet的那种痴迷状态。现在有了这个topic，我似乎可以问出一些之前不会去问的问题（以前纯paper machine思维）。比如：人类学习的时候，学不同东西的先后顺序是怎么确定的？比如打乒乓球，反胶选手，我们会先练上旋球，再练拉出台的下旋球，最后再练处理台内的短上旋/下旋，最后还得和使用特殊胶皮（比如长胶：上旋球打过去回来是下旋球）的对手对练。这非常intuitive，但是帮助机器学习设计学习顺序的时候我们如何从人类学习那里得到灵感来选择训练数据呢？或者说人类是否在这个任务中比机器更厉害呢？我知道Bengio提出了curriculum learning，但似乎跟人类的curriculum仍然相去甚远。这似乎是一个艰难的决策。
+While reading the great Fei-Fei Li's memoir, *The Worlds I See*, I came across something that made me feel ashamed and recognize the gap between myself and top scholars: for a while after finishing my PhD, I lacked a long-term research goal and lost my sense of direction. Another difference, of course, is that I have not been as willing as she was to take risks and persist with a long-term goal when circumstances turned against her.
 
-Causality和RL是这个问题的不同视角，一个关注观测到的数据之下隐藏的假设，何时bias会侵蚀你的决策模型，如何mitigate这些bias，当然causal graph这个瓶颈令人讨厌而又无法避免。另一个则注意从当前的状态和动作估测未来回报，从当前这个瞬间看向未来，在大脑中想象那颗通往不同平行宇宙的search tree。
+I had not known that ImageNet had faced so much skepticism: that without crowdsourcing there seemed to be no hope of completing it, and that after its release it went largely unnoticed for two years. I cannot imagine continuing for so long through that kind of despair and low point, even while facing doubts from my advisor's advisor. Without Mechanical Turk, without Google Image Search, and without the miraculously “unorthodox” AlexNet appearing in the third ImageNet competition and beating the best SVM by ten percentage points in one stroke, we might still be obsessively studying CatBoost and some form of SVM today. The turning point in deep learning history depended on more than Hinton and his students' devotion to neural networks, convolutional kernels, and backpropagation. Fei-Fei and her students also persevered through a workload initially estimated to require twenty years, criticism that such a large dataset was meaningless when traditional models were used, and the constant risk of running out of funding. I genuinely cried when I reached the part about AlexNet. ImageNet waited for AlexNet, while GPUs, crowdsourcing, and image search engines made it all possible behind the scenes. The success of deep learning truly was a miracle.
 
-现在有了这个长期目标，我会开始观察自己的每一个决策，去思考，去改进，一切似乎更有意思了。
+I am the kind of person who becomes obsessed with technical details. When I learned about conformal prediction or minimax regret, my immediate reaction was to understand it, incorporate it into my research, and publish related work. But I never stopped to consider what difficult problem these techniques would actually help me solve.
+
+Fortunately, while reflecting with GPT on the years since I graduated, I realized that I have in fact carried a long-term research topic in my subconscious: **making the right decisions in complex environments**. I greatly admire the kind of obsession Fei-Fei described—the ability to see anything and immediately think of ImageNet. Now that I have this topic, I seem able to ask questions I would not have asked before, when I thought purely like a paper-producing machine. For example, how do humans decide the order in which to learn different things? Consider table tennis and a player using inverted rubber: we first practice topspin, then looping long backspin balls, then handling short topspin and backspin balls over the table, and finally training against opponents who use unusual rubbers—for example, long pips, which return an incoming topspin ball as backspin. This progression feels highly intuitive. But when designing a learning sequence for a machine, how can we draw inspiration from human learning to select and order the training data? Are humans actually better than machines at this task? I know Bengio proposed curriculum learning, but it still seems far removed from the curricula humans follow. Choosing such a curriculum appears to be a difficult decision in itself.
+
+Causality and reinforcement learning offer different perspectives on this problem. One focuses on the assumptions hidden beneath observed data, on when bias will erode a decision model, and on how to mitigate those biases—though the bottleneck of needing a causal graph is frustrating yet unavoidable. The other focuses on estimating future returns from the current state and action: looking forward from this moment and imagining, in the mind, the search tree that branches into parallel universes.
+
+Now that I have this long-term goal, I will begin observing each decision I make, reflecting on it, and improving it. Everything suddenly seems more interesting.

@@ -1,12 +1,26 @@
 ---
-layout: archive
-title: Publications
+layout: page
 permalink: /publications/
-author_profile: true
+title: publications
+description: peer-reviewed publications, followed by arXiv-only preprints. Synced from Google Scholar and OpenAlex.
+nav: true
+nav_order: 2
 ---
 
-{% if site.author.googlescholar %}
-  <div class="wordwrap">You can find the full list of my papers on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
-{% endif %}
+<!-- _pages/publications.md -->
 
-{% include all_publications.md %}
+<!-- Bibsearch Feature -->
+
+{% include bib_search.liquid %}
+
+<div class="publications">
+
+<h2 class="mt-4">Published</h2>
+
+{% bibliography --query @*[pubtype=published] %}
+
+<h2 class="mt-5">Preprints (arXiv only)</h2>
+
+{% bibliography --query @*[pubtype=preprint] %}
+
+</div>

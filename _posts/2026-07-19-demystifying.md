@@ -1,7 +1,8 @@
 ---
-title: "关于因果机器学习、强化学习与生活的笔记"
+title: "Notes on Causal ML, Reinforcement Learning, and Life"
 date: 2026-07-19
-lang: zh
+lang: en
+layout: post
 translation_key: demystifying
 tags:
   - causal inference
@@ -9,51 +10,61 @@ tags:
   - personal notes
 ---
 
-不再沉默。从今天开始我向伟大的Tony学习，写博客（当然他主要是写日记）。写文字最好的一点是，毫无压力地做自己，所以我会写中文，这样更自在。
+> [中文版]({{ "/blog/zh/2026/demystifying/" | relative_url }}) (Chinese version) is available.
 
-今天去到南湾景观很好的Castle Rock State Park徒步。跟做Causal Inference的专家Xuan聊了一下Causal ML的相关话题。
 
-# 技术
+No more silence. Starting today, I am going to learn from the great Tony and write a blog (though he mostly writes a diary). The best thing about writing is being able to be myself without pressure. I will write in Chinese because it feels more natural—but here is an English version too.
+
+Today I hiked at Castle Rock State Park in the South Bay, where the views are excellent. I also talked with Xuan, an expert in causal inference, about causal machine learning.
+
+# Technology
 
 ## Synthetic DiD
-今天了解了Synthetic DiD这项技术，idea很简单，就是当你做DiD却找不到trend一致的真的control的时候，就利用synthetic control的想法制造一个synthetic的control，要求其pre treatment与treated unit的pre treatment trend一致。这里的玄学问题就来了：没有人知道pre treatment一致的synthetic control能否在post treatment跟treated unit的trend能够保持一致。Nobody knows！这是causal inference里面常常遇到的尴尬局面。这种时候我们怎么才能知道我的synthetic control跟你的synthetic control，哪个在post treatment里的trend更加真实呢？这将是一个美妙的，关于Counterfactual的问题。
 
-## Confidence Interval依赖于假设，因此也是一种错觉
-我对CI这个东西是陌生的，因为ML的论文常常满足于report mean和std，distribution在哪里？Noone f cares。但每当提到Conformal的interval很宽的时候，Confidence interval很窄就很令人疑惑，你就凭什么窄呢？噢，原来是因为假设啊！
+Today I learned about Synthetic DiD. The idea is simple: when doing difference-in-differences, if you cannot find a real control group with a matching trend, you use the idea of synthetic control to construct one. Its pre-treatment trend should match that of the treated unit. Here comes the mystical part: nobody knows whether a synthetic control whose pre-treatment trend matches the treated unit will continue to track its trend after treatment. Nobody knows! This is an awkward situation that often arises in causal inference. How can we tell whether my synthetic control or yours has the more realistic post-treatment trend? It is a beautiful counterfactual question.
 
-GPT老师总结：Conformal interval 常常宽，是因为它诚实地覆盖 outcome-level randomness；SDID confidence interval 常常窄，是因为它只覆盖 estimator-level randomness，并假定最棘手的 counterfactual bias 已被 weighting 消除了。不知道对不对。希望有一天我能继续研究Conformal这个话题。
+## Confidence intervals depend on assumptions, so they are also an illusion
 
+Confidence intervals are unfamiliar to me. ML papers are often content to report a mean and standard deviation—but where is the distribution? Nobody f cares. Still, whenever someone says that conformal intervals are wide while confidence intervals are narrow, it is puzzling: why are the latter allowed to be narrow? Ah, because of assumptions.
 
-## 在RL中忽略Causality：虽然可耻但有用
-因为考虑Causality更痛苦。特别是如果产生每个trajectory的policy是不一样的，如果环境是dynamic的，你怎么玩？
+GPT's summary: conformal intervals are often wide because they honestly cover outcome-level randomness; SDID confidence intervals are often narrow because they only cover estimator-level randomness and assume that weighting has removed the most difficult counterfactual bias. I do not know whether that is correct. I hope to study conformal methods further someday.
 
-RL本质是多步的Causal Inference，这一点是非常清晰的。另外就是on-policy的RL本质是从interventional data中学习，这一点也是毫无疑问的。Q function就是potential outcome的多步版本。
+## Ignoring causality in RL: shameful, but useful
 
-大多数RL是痴迷于estimation的，而causal RL更重视identification。以后有机会再展开研究吧。
+Accounting for causality is more painful—especially when the policy that generates each trajectory is different and the environment is dynamic. What can you do then?
 
+RL is, at its core, multi-step causal inference. That is very clear. On-policy RL learns from interventional data; that is beyond doubt. The Q function is a multi-step version of a potential outcome.
 
-## bandit能取代A/B test吗
-这是一个非常有意思的话题，本质上bandit是为了避免A/B test中对average outcome的负面作用。一边测treatment effect，一边提升average outcome。There is no free lunch!所以呢，提升average outcome的同时怎样不让treatment effect bias低呢？我还没有认真去研究这个问题。
+Most RL is obsessed with estimation, while causal RL cares more about identification. Perhaps I will have a chance to study this further later.
 
-## 我们不能做Intervention！
-我司领导说，在某场景下做intervention是不现实的。你意思是告诉我，counterfactual那部分什么数据你都不给我，还想让我预测counterfactual？做个人吧！
+## Can bandits replace A/B tests?
 
-## User simulator
-如果你能够制造出user simulator的话，你已经解决了causal inference，所以，是谁在投资那些做user simulator的公司呢？
+This is a very interesting question. At its core, bandits aim to avoid the negative effect an A/B test can have on average outcomes: estimate a treatment effect while improving the average outcome. There is no free lunch! So how can we improve the average outcome without biasing the treatment-effect estimate downward? I have not studied this carefully yet.
 
-## 因果世界模型
-最近在做这方面的东西，在离开Intu前的last dance了，Kasra帮助我把问题都搞清楚了，可惜需要graph这件事让人非常痛苦。所以我才说，对Causal ML非常悲观，也许我是错的。
+## We cannot intervene!
 
+A leader at my company said that intervention is unrealistic in a certain setting. So you are telling me that you will give me no data at all for the counterfactual part, yet still expect me to predict the counterfactual? Come on.
 
-# 生活
+## User simulators
 
+If you can build a user simulator, you have already solved causal inference. So who is investing in companies building user simulators?
 
+## Causal world models
 
-## 机器人与生产力的伟大构想
-今天听张小珺采访Pi的研究员Kay，最喜欢的一段是说，如果机器人足够强大，那一个人就可以在一颗星球上搭建一切，生存下来并且自给自足，生产力变得十分地容易得到。太美妙了，太遥远了，但让人对机器人这件事心动。
+I have been working on this recently. It is my last dance before leaving Intuit. Kasra helped me clarify all the questions, but needing a graph makes everything very painful. That is why I am so pessimistic about causal ML—though perhaps I am wrong.
 
-## 不吃压力
-很多博主在聊不吃压力。可能不吃压力才是对的，但也是不可能的。或者理解为，manager的工作就是给员工压力，而压力就是变成动力。但是压力太大就会影响员工的效率和长期的心理健康，把握得好尺度的manger是难得的。Shuai曾经说过，工作就是跟manager处关系，换位思考的话，可能压力就没那么大了。我个人最近的感悟是，你菜而且不堆时间，所以你才有压力。如果你能够轻松beat manager的expectation的话，你就会好很多。当然你也可以通过管理好manager的expectation来做到这一点。
+# Life
 
-## 萨卡帽子戏法
-祝贺卡子在无法出场的半决赛后，能够首发并打入三球。估计以卡子的能力，再在世界杯上拿一次帽子戏法是很难的。希望你会阿森纳好好发挥吧。
+## A grand vision of robots and productivity
+
+Today I listened to Zhang Xiaojun's interview with Kay, a researcher at Pi. My favorite passage was this: if robots become powerful enough, one person could build everything on a planet, survive there, and become self-sufficient. Productivity would become extremely easy to obtain. It is wonderful and distant, but it makes robotics exciting.
+
+## Do not eat pressure
+
+Many bloggers have been talking about “not eating pressure”—not internalizing pressure. Maybe that is right, but it also feels impossible. Or perhaps a manager's job is to put pressure on employees, and pressure becomes motivation. But too much pressure hurts both efficiency and long-term mental health. Managers who strike the right balance are rare.
+
+Shuai once said that work is about managing your relationship with your manager. Looking at things from their perspective may make the pressure feel smaller. My recent realization is: you feel pressure because you are not yet strong enough and you are not putting in the time. If you can easily beat your manager's expectations, things get much better. Of course, you can also get there by managing your manager's expectations well.
+
+## Saka's hat trick
+
+Congratulations to Saka for starting and scoring three goals after being unable to play in the semifinal. Given his ability, it will probably be difficult for him to score another hat trick at a World Cup. I hope he continues to perform well for Arsenal.
