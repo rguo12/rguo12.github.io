@@ -37,6 +37,9 @@ def _refuse_captcha(self, url):
 
 ProxyGenerator._handle_captcha2 = _refuse_captcha
 
+# Shared fuzzy title matching, so both sync scripts agree on what counts as a duplicate.
+from sync_openalex_publications import norm as _onorm, same_paper
+
 BIB_FILE = "_bibliography/papers.bib"
 SOCIALS_FILE = "_data/socials.yml"
 AUTO_MARKER = "% --- Added automatically from Google Scholar (edit freely) ---"
@@ -174,7 +177,32 @@ def main() -> None:
     print(f"Added google_scholar_id to {patched} existing entries.")
 
     # 2) append papers that are on Scholar but not in the bib
-    new = [p for p in pubs if norm(p["bib"].get("title", "")) not in existing]
+    pool = []  # (normalized title, year) of everything already in the file
+    for t, (a, b) in existing.items():
+        m = re.search(r"year\s*=\s*[{\"]?(\d{4})", text[a:b])
+        pool.append((_onorm(t), m.group(1) if m else None))
+
+    def skip(p) -> str:
+        bib = p["bib"]
+        title, year = _onorm(bib.get("title", "")), str(bib.get("pub_year", ""))
+        if norm(bib.get("title", "")) in existing:
+            return "already present"
+        if re.search(r"patent", bib.get("citation", ""), re.I):
+            return "patent"
+        if year.isdigit() and int(year) < 2013:
+            return "too old"
+        head = _onorm(bib.get("title", "").split(":")[0])  # "CauseBox: A toolbox..." vs "CauseBox"
+        for t2, y2 in pool:
+            near = not (year.isdigit() and y2 and abs(int(year) - int(y2)) > 1)
+            if same_paper(title, year, t2, y2) or (near and head == t2):
+                return "duplicate of an existing entry"
+        return ""
+
+    reasons = [(p, skip(p)) for p in pubs]
+    new = [p for p, r in reasons if not r]
+    for p, r in reasons:
+        if r and r != "already present":
+            print(f"  skipping {p['bib'].get('title')!r}: {r}")
     print(f"{len(new)} papers are new; fetching up to {args.max_new}.")
     added = []
     for pub in new[: args.max_new]:
