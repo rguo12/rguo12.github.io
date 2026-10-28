@@ -16,10 +16,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install scholarly pyyaml
+      # scholarly breaks with bibtexparser 2.x (ModuleNotFoundError: bibtexparser.bibdatabase)
+      - run: pip install scholarly pyyaml "bibtexparser<2"
       # Adds papers that are on Scholar but missing from _bibliography/papers.bib
       # (never overwrites existing entries). Exits 0 even if Scholar blocks the request.
       - name: Add new papers
+        continue-on-error: true
         run: python bin/sync_scholar_publications.py --max-new 15
       # OpenAlex is not rate-limited: fills in anything Scholar missed and tags each paper
       # as published or preprint (drives the two sections of the Publications page).

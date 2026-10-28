@@ -44,16 +44,19 @@ def esc(s: str) -> str:
 
 
 def fetch_works(orcid: str, name: str):
-    works, cursor = [], "*"
+    # Plain page= paging needs no API key (cursor= paging past page 1 now does).
+    works, page = [], 1
     sel = "id,title,publication_year,type,primary_location,locations,doi,authorships,biblio"
-    while cursor:
+    while True:
         q = urllib.parse.urlencode({
-            "filter": f"author.orcid:{orcid}", "per-page": 100, "cursor": cursor, "select": sel,
+            "filter": f"author.orcid:{orcid}", "per-page": 100, "page": page, "select": sel,
         })
         with urllib.request.urlopen(f"https://api.openalex.org/works?{q}", timeout=60) as r:
             d = json.load(r)
         works += d["results"]
-        cursor = d["meta"].get("next_cursor")
+        if not d["results"] or len(works) >= d["meta"]["count"]:
+            break
+        page += 1
     last = name.split()[-1].lower()
     # keep only works where an author really is us (guards against ORCID mis-assignments)
     def junk(w):
