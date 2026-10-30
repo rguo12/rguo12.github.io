@@ -1378,3 +1378,82 @@
   url = {https://openreview.net/forum?id=hllyaNwbOz},
   google_scholar_id = {4X0JR2_MtJMC}
 }
+
+@article{wang2024cumulative,
+  pubtype = {preprint},
+  bibtex_show = {true},
+  title = {Cumulative distribution function based general temporal point processes},
+  author = {Maolin Wang and Yu Pan and Zenglin Xu and Ruocheng Guo and Xiangyu Zhao and Wanyu Wang and Yiqi Wang and Zitao Liu and Langming Liu},
+  journal = {arXiv preprint arXiv:2402.00388},
+  year = {2024},
+  abstract = {Temporal Point Processes (TPPs) hold a pivotal role in modeling event sequences across diverse domains, including social networking and e-commerce, and have significantly contributed to the advancement of recommendation systems and information retrieval strategies. Through the analysis of events such as user interactions and transactions, TPPs offer valuable insights into behavioral patterns, facilitating the prediction of future trends. However, accurately forecasting future events remains a formidable challenge due to the intricate nature of these patterns. The integration of Neural Networks with TPPs has ushered in the development of advanced deep TPP models. While these models excel at processing complex and nonlinear temporal data, they encounter limitations in modeling intensity functions, grapple with computational complexities in integral computations, and struggle to capture long-range temporal dependencies effectively. In this study, we introduce the CuFun model, representing a novel approach to TPPs that revolves around the Cumulative Distribution Function (CDF). CuFun stands out by uniquely employing a monotonic neural network for CDF representation, utilizing past events as a scaling factor. This innovation significantly bolsters the model's adaptability and precision across a wide range of data scenarios. Our approach addresses several critical issues inherent in traditional TPP modeling: it simplifies log-likelihood calculations, extends applicability beyond predefined density function forms, and adeptly captures long-range temporal patterns. Our contributions encompass the introduction of a pioneering CDF-based …},
+  url = {https://arxiv.org/abs/2402.00388},
+  google_scholar_id = {yFnVuubrUp4C},
+  arxiv = {2402.00388}
+}
+
+@article{cheng2021modeling2,
+  pubtype = {preprint},
+  bibtex_show = {true},
+  title = {Modeling Temporal Pa erns of Cyberbullying Detection with Hierarchical A ention Networks},
+  author = {LU CHENG and RUOCHENG GUO and YASIN N SILVA and DEBORAH HALL and HUAN LIU},
+  year = {2021},
+  abstract = {To model temporal patterns, a straightforward approach is to extract temporal features (eg, timestamp describing when a comment is posted) and directly concatenate them with other features such as text (eg, Bag of Words). However, given the multi-modal nature of social media data, features gleaned from social media sessions often follow di erent distributions and may not be compatible with each other and, in the worst case, may be independent [9]. This highlights a primary challenge of using temporal analyses in cyberbullying detection: How to e ectively integrate temporal information with other features to improve model performance? Social media sessions have an inherently hierarchical structure, eg, words form a comment, comments and social content form a session, as illustrated in Figure 1. A number of studies in document classi cation (eg, References [12, 52]) have shown that document representation can be improved by considering its hierarchical structure. We draw on these ndings to model the hierarchy of a social media session, which can enhance the representation of a social media session in crucial ways. First, comments within a social media session can be short, and the lack of contextual information can present challenges for detecting cyberbullying sessions when comments are used independently [55]. The hierarchical structure can enrich individual comments with semantically related texts. Second, words in a comment and comments in a session are not equally relevant to cyberbullying detection. For example, whereas “You’re af** king loser!” and “Yeah, I’ma loser” both include the word loser, the former is more likely to …},
+  url = {https://www.academia.edu/download/131738037/3441141.pdf},
+  google_scholar_id = {0CzhzZyukY4C}
+}
+
+@inproceedings{baidyaparetomil,
+  pubtype = {published},
+  bibtex_show = {true},
+  title = {ParetoMIL: Early Risk Detection in Dialogue under Weak Supervision},
+  author = {Avinash Baidya and Xinran Liang and Ruocheng Guo and Kamalika Das and Xiang Gao},
+  booktitle = {First Workshop on Multi-Turn Interactions in Large Language Models},
+  abstract = {Large Language Models (LLMs) increasingly operate in multi-turn interactions where the cost of failure grows with delay, creating a need for turn-level risk assessment and timely alerts. Existing approaches fall short: process reward modeling presumes step-wise labels; multi-instance learning (MIL) overlooks earliness; and early classification of time series (ECTS) neglects the complex relationship between turn-level events and dialogue-level risk. We propose a novel approach that integrates MIL and ECTS to deliver controllable early alerts from weak dialogue-level supervision. A soft-MIL scorer with prefix-conditioned encodings and monotone pooling produces a non-decreasing prefix risk, while a reinforcement-learning trigger, conditioned on a control parameter, balances earliness and accuracy with a single policy that traces the Pareto frontier without retraining. Empirically, our method improves the earliness–accuracy trade-off on multi-turn dialogues compared to strong baselines.},
+  url = {https://openreview.net/forum?id=Gc4CcLKZP5},
+  google_scholar_id = {Ak0FvsSvgGUC}
+}
+
+@article{gaoimproving,
+  pubtype = {preprint},
+  bibtex_show = {true},
+  title = {Improving Tool-Using Language Agents via MDL‑Guided Rule Learning},
+  author = {Xiang Gao and Yuguang Yao and Qi Zhang and Kaiwen Dong and Avinash Baidya and Ruocheng Guo and Hilaf Hasson and Kamalika Das},
+  abstract = {Large language models (LLMs) often struggle to use tools reliably in domain-specific settings, where APIs may be idiosyncratic, under-documented, or tailored to private workflows. This highlights the need for effective adaptation to task-specific tools. We propose RIMRULE, a neuro-symbolic approach for LLM adaptation based on dynamic rule injection. Compact, interpretable rules are distilled from failure traces and injected into the prompt during inference to improve task performance. These rules are proposed by the LLM itself and consolidated using a Minimum Description Length (MDL) objective that favors generality and conciseness. Each rule is stored in both natural language and a structured symbolic form, supporting efficient retrieval at inference time. Experiments on tool-use benchmarks show that this approach improves accuracy on both seen and unseen tools without modifying LLM weights. It outperforms prompting-based adaptation methods and complements finetuning, offering an interpretable layer of inference-time generalization. Moreover, rules learned from one LLM can be reused to improve others, including long reasoning LLMs, highlighting the portability of symbolic knowledge across architectures.},
+  url = {https://openreview.net/forum?id=RiaCWdGVGk},
+  google_scholar_id = {Bg7qf7VwUHIC}
+}
+
+@article{liu2021adversarial2,
+  bibtex_show = {true},
+  pubtype = {published},
+  title = {Adversarial Attacks and Defenses},
+  author = {Ninghao Liu and Mengnan Du and Ruocheng Guo and Huan Liu and Xia Hu},
+  journal = {ACM SIGKDD Explorations Newsletter},
+  volume = {23},
+  number = {1},
+  pages = {86--99},
+  year = {2021},
+  doi = {10.1145/3468507.3468519}
+}
+
+@article{liu2020adversarial,
+  bibtex_show = {true},
+  pubtype = {preprint},
+  title = {Adversarial Attacks and Defenses: An Interpretation Perspective},
+  author = {Ninghao Liu and Mengnan Du and Ruocheng Guo and Huan Liu and Xia Hu},
+  journal = {arXiv preprint},
+  year = {2020},
+  doi = {10.48550/arxiv.2004.11488},
+  arxiv = {2004.11488}
+}
+
+@article{cheng2020towards,
+  bibtex_show = {true},
+  pubtype = {preprint},
+  title = {Towards Causal Understanding of Fake News Dissemination.},
+  author = {Lu Cheng and Ruocheng Guo and Kai Shu and Huan Liu},
+  journal = {arXiv preprint},
+  year = {2020},
+  arxiv = {2010.10580}
+}
