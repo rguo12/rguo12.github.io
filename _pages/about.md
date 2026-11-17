@@ -28,6 +28,8 @@ Ruocheng is a Senior Applied Scientist at Microsoft Frontier Tuning. His current
 
 Prior to joining Microsoft, he was a Staff Research Scientist at Intuit, working on Tool-using Agents and Financial World Models. Before that, he was a ML Researcher at ByteDance Research/Tiktok (London) and an Assistant Professor at City University of Hong Kong. He earned his Ph.D. degree from the Data Mining and Machine Learning Laboratory (DMML) at Arizona State University, advised by [Huan Liu](https://search.asu.edu/profile/255975), MSc degree from the beautiful HKUST and BEng degree from HUST.
 
+**I am open to research and open-source project collaboration.** Feel free to [book a meeting with me](https://calendar.app.google/USdtoeQaUZiLvAuQ8).
+
 Research Interests:
 - LLMs (Env Scaling, Agentic RL, Text World Models, LLM Reasoning)
 - Causal ML
